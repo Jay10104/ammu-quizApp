@@ -1919,6 +1919,36 @@ function unpackQ(x){
   return x;
 }
 
+/* ---------------- Optional Google Sheets sync ---------------- */
+// Paste the deployed Apps Script Web App URL here. Keep the destination Sheet private.
+// The browser cannot safely hold a secret; treat this public write endpoint as untrusted input.
+const GOOGLE_SHEETS_WEB_APP_URL = "";
+function sendQuizDataToSheets(payload){
+  if(!GOOGLE_SHEETS_WEB_APP_URL || !/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:$|\?)/.test(GOOGLE_SHEETS_WEB_APP_URL)) return;
+  try {
+    fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+      method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload), keepalive:true
+    }).catch(()=>{});
+  } catch(e) {}
+}
+function syncQuizUserToSheets(username, account){
+  if(!account) return;
+  sendQuizDataToSheets({type:"user", username, name:account.name||"", role:account.role||"student",
+    category:account.cat||"", classLevel:account.cls||"", age:Number(account.age)||null,
+    gender:account.gender||"", state:account.state||"", language:account.lang||"en",
+    joined:new Date(account.created||Date.now()).toISOString()});
+}
+function syncQuizResultToSheets(username, account, attempt){
+  if(!account || !attempt) return;
+  // Never send passwords, password salts, email, phone, address, photos, or individual answers.
+  syncQuizUserToSheets(username, account);
+  sendQuizDataToSheets({type:"result", username, date:attempt.date||new Date().toISOString(),
+    topics:Array.isArray(attempt.subjects)?attempt.subjects:[], classLevel:attempt.cls||account.cls||"",
+    level:attempt.lvl||"", score:Number(attempt.correct)||0, total:Number(attempt.total)||0,
+    timeTakenMs:Number(attempt.time)||0});
+}
+
 /* ---------------- Storage ---------------- */
 const LS_KEY="quiztime.v1";
 let S = {accounts:{}, session:null};
@@ -2787,7 +2817,6 @@ function vLogin(){
         ${mode==="up"?`<div class="f">${t("accType")}</div>
         <div class="roles" role="radiogroup" aria-label="${t("accType")}">
           <button type="button" class="role" role="radio" data-role="student" aria-checked="${(route.role||"student")==="student"}"><span class="ri" aria-hidden="true">👤</span><b>${t("roleStudent")}</b><small>${t("roleStudentHint")}</small></button>
-          <button type="button" class="role" role="radio" data-role="admin" aria-checked="${route.role==="admin"}"><span class="ri" aria-hidden="true">🛡️</span><b>${t("roleAdmin")}</b><small>${t("roleAdminHint")}</small></button>
         </div>
         <div id="catBlock" ${route.role==="admin"?"hidden":""}>
           <div class="f">${t("iAm")}</div>
@@ -2847,15 +2876,15 @@ function vLogin(){
       if(em && !validEmail(em)) return err("errEmail");
       if(ph && !validPhone(ph)) return err("errPhone");
       const ad=readAddress(); const ae=addressErr(ad); if(ae) return err(ae);
-      const isAdm=route.role==="admin", cat=route.cat||"school", age=+val("age");
+      const isAdm=false, cat=route.cat||"school", age=+val("age");
       if(!isAdm && !(age>=4 && age<=110)) return err("errAge");
       if(!route.gender) return err("errGender");
       if(!isAdm && age<18 && !document.getElementById("guardianConsent")?.checked) return err("guardianConsentErr");
       if(pw.length<4) return err("errPw");
       const salt=Math.random().toString(36).slice(2,10);
       const plang=route.plang||(!isAdm&&age>30?"te":"en");
-      S.accounts[un]={name:nm,email:em,phone:ph,...ad,guardianConsent:!isAdm&&age<18?true:false,gender:route.gender,lang:plang,langOther:route.plangOther||null,...(isAdm?{}:{cat,age}),salt,pass:await hash(pw,salt),favs:[],cls:null,history:[],created:Date.now(),role:route.role==="admin"?"admin":"student"};
-      S.session=un; S.lang=S.accounts[un].lang; save(); go(PH[un]?homeRoute():"photo"); toast(t("okCreated"));
+      S.accounts[un]={name:nm,email:em,phone:ph,...ad,guardianConsent:!isAdm&&age<18?true:false,gender:route.gender,lang:plang,langOther:route.plangOther||null,...(isAdm?{}:{cat,age}),salt,pass:await hash(pw,salt),favs:[],cls:null,history:[],created:Date.now(),role:"student"};
+      S.session=un; S.lang=S.accounts[un].lang; save(); syncQuizUserToSheets(un,S.accounts[un]); go(PH[un]?homeRoute():"photo"); toast(t("okCreated"));
     } else {
       let matches=findAccounts(val("un"));
       if(!matches.length && !syncDone){ const btn=e.submitter||document.querySelector("#f .btn"); btn.disabled=true; btn.textContent=t("loadingTxt"); await syncReady; btn.disabled=false; btn.textContent=t("login"); matches=findAccounts(val("un")); }
@@ -3100,6 +3129,7 @@ function vQuiz(){
     const att={id:now.toString(36),date:new Date(now).toISOString(),cls:Z.cls,lvl:Z.lvl||null,subjects:Z.subjects,total:Z.qs.length,correct,time:now-Z.start,
       qs:Z.qs.map(packQ)};
     const u=me(); u.history=[att,...(u.history||[])].slice(0,50); save();
+    syncQuizResultToSheets(S.session,u,att);
     go("result",{att,fresh:true}); toast(t("okSaved"));
   };
 }
@@ -3215,6 +3245,7 @@ header.bar .in{padding-top:8px;padding-bottom:8px}
 .guardian-check{display:flex;align-items:flex-start;gap:10px;line-height:1.45;cursor:pointer}
 .guardian-check input{margin-top:5px;width:18px;height:18px;flex:none;accent-color:var(--blue)}
 .privacy-note{font-size:.78rem;color:var(--muted);background:transparent}
+.field-wrap{display:flex;flex-direction:column;gap:7px;margin:0 0 14px;min-width:0}.field-wrap .f{margin:0}.field-wrap .inp{width:100%;box-sizing:border-box}
 #signupProgress{display:flex;gap:6px;margin:0 0 14px;align-items:center}
 #signupProgress .step-dot{height:5px;border-radius:9px;background:var(--line);flex:1}
 #signupProgress .step-dot.active{background:var(--blue)}
@@ -3240,7 +3271,16 @@ header.bar .in{padding-top:8px;padding-bottom:8px}
     form.dataset.tqEnhanced='1';
     const children=Array.from(form.children);
     const find=(id)=>form.querySelector('#'+id);
-    const wrapOf=(id)=>{const el=find(id);return el?el.closest('.f')||el.closest('.addr')||el:null};
+    const wrapOf=(id)=>{
+      const el=find(id); if(!el) return null;
+      const label=form.querySelector('label[for="'+id+'"]');
+      if(el.closest('.field-wrap')) return el.closest('.field-wrap');
+      const wrap=document.createElement('div'); wrap.className='field-wrap';
+      const anchor=label||el; anchor.parentNode.insertBefore(wrap,anchor);
+      if(label) wrap.appendChild(label);
+      wrap.appendChild(el);
+      return wrap;
+    };
     // Build three progressive sections while retaining the original controls and event handlers.
     const account=document.createElement('section');account.className='signup-step';account.dataset.step='1';
     const about=document.createElement('section');about.className='signup-step';about.dataset.step='2';
@@ -3252,7 +3292,9 @@ header.bar .in{padding-top:8px;padding-bottom:8px}
     const roleGroup=form.querySelector('[data-role]')?.parentElement;
     const catBlock=find('catBlock');
     const genderGroup=form.querySelector('[data-g]')?.parentElement;
+    const genderLabel=genderGroup?.previousElementSibling;
     const langGroup=form.querySelector('[data-pl]')?.parentElement;
+    const langLabel=langGroup?.previousElementSibling;
     const plo=find('plo'), ploLabel=plo?.previousElementSibling;
     const nm=wrapOf('nm'), un=wrapOf('un'), pw=wrapOf('pw');
     const em=wrapOf('em'), ph=wrapOf('ph'), address= form.querySelector('.addr');
@@ -3261,7 +3303,7 @@ header.bar .in{padding-top:8px;padding-bottom:8px}
     form.insertBefore(account,progress.nextSibling);form.insertBefore(about,account.nextSibling);form.insertBefore(contact,about.nextSibling);
     const move=(node,section)=>{if(node && !section.contains(node))section.appendChild(node)};
     move(roleLabel,account);move(roleGroup,account);move(nm,account);move(un,account);move(pw,account);
-    move(catBlock,about);move(genderGroup,about);move(langGroup,about);move(ploLabel,about);move(plo,about);
+    move(catBlock,about);move(genderLabel,about);move(genderGroup,about);move(langLabel,about);move(langGroup,about);move(ploLabel,about);move(plo,about);
     // Language hints were adjacent to the language selector before moving; keep them in step 2.
     const hints=Array.from(form.querySelectorAll('p.hint')).filter(p=>p.id==='ploNote'||p.textContent.trim().length>0);
     hints.forEach(p=>{if(p.id==='ploNote'||p.textContent.includes('language')||p.textContent.includes('భాష'))move(p,about)});
