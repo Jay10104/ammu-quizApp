@@ -2983,12 +2983,13 @@ function vLogin(){
   if(mode==="choose"){
     $app.innerHTML = `
       <section class="auth-welcome">
+        <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
         <p class="tagline-display">${t("loginLead")}</p>
         <div class="auth-actions">
-          <button class="btn auth-action primary" type="button" id="chooseLogin">♙ &nbsp; ${t("login")} &nbsp; →</button>
-          <button class="btn auth-action secondary" type="button" id="chooseCreate">⊕ &nbsp; ${t("create")} &nbsp; →</button>
+          <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true">👤</span><span>${t("login")}</span></button>
+          <button class="btn auth-action secondary" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true">👤<span class="auth-plus">+</span></span><span>${t("create")}</span></button>
         </div>
-        <button class="btn auth-home-back" type="button" id="landingBack">← ${t("backBtn")}</button>
+        <button class="btn auth-home-back" type="button" id="landingBack">${t("backBtn")}</button>
         ${authControlsMarkup()}
       </section>`;
     wireAuthControls();
@@ -3001,7 +3002,7 @@ function vLogin(){
     <section class="auth-form-head">
       <div class="auth-icon-wrap auth-page-icon"><img class="auth-icon" src="${AMMU_IMG}" alt="Tejaswini Quiz icon"></div>
       <h1 class="auth-title">${mode==="up"?t("create"):t("login")}</h1>
-      <button class="btn ghost auth-back" type="button" id="authBack">← Back</button>
+      <button class="btn ghost auth-back" type="button" id="authBack">Back</button>
     </section>
     <div class="sheet">
       <form id="f" novalidate>
@@ -3600,6 +3601,35 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 @media (prefers-reduced-motion: no-preference) {
   .auth-welcome .tagline-display { animation: taglineFadeIn .55s ease-out both; }
   @keyframes taglineFadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+}
+</style>
+
+<style id="landing-layout-refinements">
+/* Keep the app icon on the starting page and make the entry controls cleaner. */
+.auth-welcome .landing-square {
+  width: min(190px, 49vw);
+  margin: 12px auto 10px;
+  border-radius: 26px;
+}
+.auth-welcome .tagline-display { margin: 0 auto 22px; padding: 0; }
+.auth-actions { margin: 10px auto 0; gap: 12px; }
+.auth-action { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 62px; }
+.auth-action-icon { position: relative; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; line-height: 1; }
+.auth-plus { position: absolute; right: -8px; bottom: -5px; font-size: 1.15rem; font-weight: 900; line-height: 1; }
+.auth-home-back { min-width: 0; padding: 6px 16px; min-height: 34px; font-size: .82rem; border-radius: 18px; margin-top: auto; }
+.auth-bottom-options { gap: 8px; margin-top: 14px; padding-bottom: calc(4px + env(safe-area-inset-bottom,0px)); }
+.auth-option { min-height: 38px; padding: 6px 8px; gap: 5px; border-radius: 11px; font-size: .78rem; box-shadow: none; }
+.auth-option-icon { font-size: .95rem; }
+.auth-option-change { font-size: .68rem; }
+.auth-switch { width: 30px; height: 17px; padding: 2px; }
+.auth-switch i { width: 13px; height: 13px; }
+.auth-switch i[style*="18px"] { transform: translateX(13px) !important; }
+.auth-back { min-width: 0; padding: 6px 14px; font-size: .85rem; border-radius: 18px; }
+@media (max-width: 380px) {
+  .auth-welcome .landing-square { width: min(160px, 43vw); border-radius: 22px; }
+  .auth-action { min-height: 56px; gap: 7px; }
+  .auth-action-icon { font-size: 1.8rem; }
+  .auth-option { font-size: .74rem; padding: 5px 4px; }
 }
 </style>
 </body>
