@@ -4254,25 +4254,26 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 
 
 <style id="welcome-main-page-only-refinement">
-/* These refinements intentionally apply only to the welcome/choose screen. */
+/* Welcome screen only: one rectangle around both lines, with no nested card. */
 .auth-welcome .welcome-entry-card {
   box-sizing: border-box;
   width: min(100%, 460px);
   margin: 4px auto 0;
-  padding: 18px 16px 16px;
-  border: 1.5px solid var(--line);
-  border-radius: 22px;
-  background: var(--paper);
-  box-shadow: 0 8px 24px rgba(30, 45, 90, .09);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 .auth-welcome .welcome-tagline-box {
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto 16px;
-  padding: 13px 12px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: var(--sheet);
+  padding: 16px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 6px 18px rgba(30, 45, 90, .08);
   text-align: center;
 }
 .auth-welcome .welcome-entry-card .tagline-display {
@@ -4298,8 +4299,8 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   border-radius: 13px;
 }
 @media (max-width: 380px) {
-  .auth-welcome .welcome-entry-card { padding: 15px 12px 13px; border-radius: 18px; }
-  .auth-welcome .welcome-tagline-box { padding: 11px 9px; margin-bottom: 13px; }
+  .auth-welcome .welcome-entry-card { padding: 0; }
+  .auth-welcome .welcome-tagline-box { padding: 13px 10px; margin-bottom: 13px; }
   .auth-welcome .welcome-entry-card .landing-subtitle { font-size: .9rem; }
   .auth-welcome .welcome-entry-card .auth-actions { gap: 8px; }
 }
