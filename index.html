@@ -3756,34 +3756,70 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 
 
 <style id="landing-auth-button-alignment-fix">
-/* Match the landing-page action buttons to the compact login-page alignment. */
+/* Keep the landing icon medium-sized, polished, and consistent across screens. */
+.auth-welcome .landing-square {
+  box-sizing: border-box !important;
+  display: block !important;
+  width: clamp(128px, 34vw, 158px) !important;
+  max-width: min(48vw, 158px) !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border: 3px solid var(--accent, #6c63ff) !important;
+  border-radius: 25px !important;
+  padding: 3px !important;
+  background: var(--sheet, #fff) !important;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, .14), 0 0 0 1px rgba(255,255,255,.42) !important;
+  margin: 4px auto 9px !important;
+}
+/* Keep Login and Create Account evenly sized with a small, consistent gap. */
 .auth-welcome .auth-actions {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  align-items: stretch;
-  width: 100%;
-  max-width: 490px;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 460px !important;
+  margin: 5px auto 0 !important;
   gap: 8px !important;
-  margin: 8px auto 0 !important;
 }
 .auth-welcome .auth-action {
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
-  min-height: 54px;
+  min-width: 0 !important;
+  min-height: 54px !important;
   margin: 0 !important;
-  padding: 8px 6px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 7px !important;
-  line-height: 1.15;
 }
-.auth-welcome .auth-action-icon { margin: 0; flex: 0 0 auto; }
+/* Keep theme/language options visible above the small bottom-left Back button. */
+.auth-welcome .auth-bottom-options {
+  position: fixed !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: calc(44px + env(safe-area-inset-bottom, 0px)) !important;
+  width: auto !important;
+  max-width: 460px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  gap: 8px !important;
+  z-index: 999 !important;
+}
+.auth-welcome .auth-option {
+  min-height: 34px !important;
+  padding: 5px 7px !important;
+  font-size: .74rem !important;
+}
 @media (max-height: 700px) {
-  .auth-welcome .auth-actions { gap: 7px !important; margin-top: 5px !important; }
-  .auth-welcome .auth-action { min-height: 49px; padding: 6px 4px; }
+  .auth-welcome .landing-square {
+    width: clamp(118px, 25vh, 145px) !important;
+    max-width: min(48vw, 145px) !important;
+    margin-top: 2px !important;
+    margin-bottom: 6px !important;
+  }
+  .auth-welcome .tagline-display { margin-bottom: 7px !important; }
+  .auth-welcome .auth-actions { margin-top: 4px !important; }
+  .auth-welcome .auth-action { min-height: 47px !important; }
+}
+@media (max-width: 360px) {
+  .auth-welcome .landing-square { width: 124px !important; max-width: 42vw !important; border-radius: 22px !important; }
+  .auth-welcome .auth-bottom-options { left: 9px !important; right: 9px !important; gap: 6px !important; }
+  .auth-welcome .auth-option { font-size: .69rem !important; padding: 4px !important; }
 }
 </style>
 
@@ -3818,6 +3854,94 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 .backbar svg { width: 14px; height: 14px; flex: 0 0 14px; }
 .auth-home-back, .auth-back { margin: 5px auto 8px !important; }
 @media (min-width:700px) { .backbar:not([hidden]) { bottom: 100px; } }
+</style>
+
+
+<style id="main-icon-and-bottom-left-back-final">
+/* Keep the landing screen balanced and keep the two utility controls visible without scrolling. */
+.auth-welcome .landing-square {
+  width: clamp(125px, 25vh, 185px) !important;
+  max-width: min(60vw, 185px) !important;
+  margin: 2px auto 7px !important;
+  border-radius: 24px !important;
+}
+/* Back stays compact at the bottom-left, like the Reset Your Password page. */
+.auth-welcome .auth-home-back,
+.auth-form-head .auth-back {
+  position: fixed !important;
+  left: 10px !important;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  z-index: 1000 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  min-height: 28px !important;
+  padding: 3px 9px !important;
+  border-radius: 14px !important;
+  font-size: .72rem !important;
+  line-height: 1.1 !important;
+  box-shadow: none !important;
+}
+/* Keep Back, Dark/Light, and Language together in one fixed bottom row. */
+.auth-welcome .auth-home-back {
+  left: 8px !important;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  width: 62px !important;
+  min-width: 62px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 4px 5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  font-size: .72rem !important;
+}
+.auth-welcome .auth-bottom-options {
+  position: fixed !important;
+  left: 76px !important;
+  right: 8px !important;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  gap: 6px !important;
+  z-index: 999 !important;
+}
+.auth-welcome .auth-bottom-options .auth-option {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 4px 5px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  font-size: .72rem !important;
+  white-space: nowrap !important;
+}
+.auth-welcome .auth-bottom-options .auth-switch { display: none !important; }
+.auth-welcome .auth-bottom-options .auth-option-change { font-size: .65rem !important; }
+@media (max-height: 700px) {
+  .auth-welcome .landing-square {
+    width: clamp(105px, 21vh, 145px) !important;
+    max-width: min(52vw, 145px) !important;
+  }
+  .auth-welcome .tagline-display { margin-bottom: 7px !important; }
+  .auth-welcome .auth-actions { margin-top: 4px !important; }
+  .auth-welcome .auth-action { min-height: 47px !important; }
+}
+@media (max-width: 360px) {
+  .auth-welcome .auth-home-back { left: 6px !important; width: 56px !important; min-width: 56px !important; font-size: .67rem !important; }
+  .auth-welcome .auth-bottom-options { left: 68px !important; right: 6px !important; gap: 4px !important; }
+  .auth-welcome .auth-bottom-options .auth-option { font-size: .66rem !important; padding: 3px !important; gap: 3px !important; }
+  .auth-welcome .auth-bottom-options .auth-option-change { display: none !important; }
+}
 </style>
 
 </body>
