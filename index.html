@@ -2512,13 +2512,20 @@ function vPhoto(){
 
 function vProfile(){
   const un=S.session, u=me(), h=u.history||[];
+  // Use the exact avatar currently shown in the top-right account icon for the large profile photo.
+  const navAvatar=document.querySelector("#avSlot img, #avSlot span");
+  const mainAvatar=navAvatar
+    ? (navAvatar.tagName==="IMG"
+        ? `<img src="${esc(navAvatar.getAttribute("src")||"")}" alt="">`
+        : `<span class="initial" aria-hidden="true">${esc(navAvatar.textContent||"?")}</span>`)
+    : avatarHTML(un,"");
   const taken=h.length, qTot=h.reduce((s,a)=>s+a.total,0), qOk=h.reduce((s,a)=>s+a.correct,0);
   const best=taken?Math.round(Math.max(...h.map(a=>a.correct/a.total))*100):0;
   const avgT=qTot?h.reduce((s,a)=>s+a.time,0)/qTot:0;
   const row=(k,v)=>`<div class="prow"><span>${k}</span><b>${v}</b></div>`;
   $app.innerHTML=`
     <div class="hero">
-      ${avatarEdit(avatarHTML(un,""))}
+      ${avatarEdit(mainAvatar)}
       <h1>${esc(u.name)}</h1>
       <p class="lead">@${esc(un)}</p>
     </div>
