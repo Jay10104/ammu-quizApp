@@ -481,8 +481,9 @@ header.bar .bandin{padding:8px 16px}
 /* ---------------- Question bank ---------------- */
 const SUBJECTS = [
   {id:"maths", name:"Maths", ic:"➗"},
-  {id:"science", name:"Science", ic:"🔬"},
   {id:"english", name:"English", ic:"📖"},
+  {id:"telugu", name:"Telugu", ic:"అ"},
+  {id:"science", name:"Science", ic:"🔬"},
   {id:"gk", name:"General knowledge", ic:"🌍"},
   {id:"computers", name:"Computers", ic:"💻"},
   {id:"movies", name:"Movies", ic:"🎬"},
@@ -647,7 +648,7 @@ const BANK = {
 };
 
 /* Telugu versions. null options = same as English (names, codes, numbers, English-language answers) */
-const SUB_TE = {maths:"గణితం", science:"సైన్స్", english:"ఇంగ్లీష్", gk:"సాధారణ జ్ఞానం", computers:"కంప్యూటర్లు"};
+const SUB_TE = {maths:"గణితం", science:"సైన్స్", english:"ఇంగ్లీష్", telugu:"తెలుగు", gk:"సాధారణ జ్ఞానం", computers:"కంప్యూటర్లు", movies:"సినిమాలు", sports:"క్రీడలు", history:"చరిత్ర", politics:"రాజకీయాలు"};
 const BANK_TE = {
  science:{
   junior:[
@@ -1531,30 +1532,56 @@ function numOpts(ans, spread){
 }
 const B = (en,te)=>({en,te:te??en});
 function mathQ(c){
-  const t = rnd(0,2);
-  if(c>=11){
-    if(t===0){const P=rnd(1,20)*1000,R=rnd(5,12),T=rnd(2,5);return [B(`Simple interest on ₹${P} at ${R}% per year for ${T} years?`,`₹${P} పై సంవత్సరానికి ${R}% చొప్పున ${T} సంవత్సరాలకు సాధారణ వడ్డీ ఎంత?`),numOpts(P*R*T/100,500)]}
-    if(t===1){const a=rnd(1,8),b=rnd(a+1,12);return [B(`x² − ${a+b}x + ${a*b} = 0. What is the larger root?`,`x² − ${a+b}x + ${a*b} = 0. పెద్ద మూలం ఏది?`),numOpts(b,3)]}
-    const r=[7,14,21][rnd(0,2)];return [B(`Area of a circle with radius ${r} cm (π = 22/7), in cm²?`,`${r} సెం.మీ. వ్యాసార్ధం ఉన్న వృత్త వైశాల్యం (π = 22/7) ఎన్ని చ.సెం.మీ.?`),numOpts(22*r*r/7,60)];
+  // Class-aligned maths progression: keep operations within the selected grade's expected skills.
+  const cls=Math.max(1,Math.min(10,Number(c)||1));
+  const t=rnd(0,4);
+  if(cls===1){
+    const mode=t%4;
+    if(mode===0){const a=rnd(0,10),b=rnd(0,Math.min(10,20-a));return [B(`What is ${a} + ${b}?`,`${a} + ${b} ఎంత?`),numOpts(a+b,4)]}
+    if(mode===1){const a=rnd(1,20),b=rnd(0,a);return [B(`What is ${a} − ${b}?`,`${a} − ${b} ఎంత?`),numOpts(a-b,4)]}
+    if(mode===2){const a=rnd(1,20);return [B(`Which number comes after ${a}?`,`${a} తర్వాత వచ్చే సంఖ్య ఏది?`),numOpts(a+1,4)]}
+    const a=rnd(1,9),b=rnd(a+1,11);return [B(`Which number is greater: ${a} or ${b}?`,`${a}, ${b} లలో పెద్ద సంఖ్య ఏది?`),[String(b),String(a),String(Math.max(0,a-1)),String(b+1)]];
   }
-  if(c<=2){
-    if(t===0){const a=rnd(1,20),b=rnd(1,20);return [B(`What is ${a} + ${b}?`,`${a} + ${b} ఎంత?`),numOpts(a+b,5)]}
-    if(t===1){const a=rnd(10,30),b=rnd(1,a);return [B(`What is ${a} − ${b}?`,`${a} − ${b} ఎంత?`),numOpts(a-b,5)]}
-    const a=rnd(2,5),b=rnd(1,10);return [B(`What is ${a} × ${b}?`,`${a} × ${b} ఎంత?`),numOpts(a*b,6)];
+  if(cls===2){
+    if(t===0){const a=rnd(10,49),b=rnd(1,Math.min(50,99-a));return [B(`What is ${a} + ${b}?`,`${a} + ${b} ఎంత?`),numOpts(a+b,8)]}
+    if(t===1){const a=rnd(20,99),b=rnd(1,a);return [B(`What is ${a} − ${b}?`,`${a} − ${b} ఎంత?`),numOpts(a-b,8)]}
+    if(t===2){const a=[2,5,10][rnd(0,2)],b=rnd(1,10);return [B(`Count by ${a}s: ${a*b}, ${a*(b+1)}, ___`,`${a} చొప్పున లెక్కించండి: ${a*b}, ${a*(b+1)}, ___`),[String(a*(b+2)),String(a*(b+1)),String(a*(b+3)),String(a*(b+4))]]}
+    const a=rnd(10,90);return [B(`Is ${a} an even or odd number?`,`${a} సరి సంఖ్యా లేదా బేసి సంఖ్యా?`),[a%2===0?"Even":"Odd",a%2===0?"Odd":"Even","Prime","Neither"]];
   }
-  if(c<=4){
-    if(t===0){const a=rnd(20,99),b=rnd(10,99);return [B(`What is ${a} + ${b}?`,`${a} + ${b} ఎంత?`),numOpts(a+b,10)]}
+  if(cls<=4){
+    if(t===0){const a=rnd(100,900),b=rnd(10,Math.min(99,999-a));return [B(`What is ${a} + ${b}?`,`${a} + ${b} ఎంత?`),numOpts(a+b,30)]}
     if(t===1){const a=rnd(2,12),b=rnd(2,12);return [B(`What is ${a} × ${b}?`,`${a} × ${b} ఎంత?`),numOpts(a*b,8)]}
-    const b=rnd(2,10),q=rnd(2,10);return [B(`What is ${b*q} ÷ ${b}?`,`${b*q} ÷ ${b} ఎంత?`),numOpts(q,4)];
+    if(t===2){const b=rnd(2,10),q=rnd(2,10);return [B(`What is ${b*q} ÷ ${b}?`,`${b*q} ÷ ${b} ఎంత?`),numOpts(q,4)]}
+    const l=rnd(3,20),w=rnd(2,12);return [B(`A rectangle is ${l} cm long and ${w} cm wide. What is its perimeter?`,`ఒక దీర్ఘచతురస్రం పొడవు ${l} సెం.మీ., వెడల్పు ${w} సెం.మీ. దాని చుట్టుకొలత ఎంత?`),numOpts(2*(l+w),8)];
   }
-  if(c<=7){
+  if(cls===5){
+    if(t===0){const a=rnd(1000,9000),b=rnd(100,9999-a);return [B(`What is ${a} + ${b}?`,`${a} + ${b} ఎంత?`),numOpts(a+b,100)]}
+    if(t===1){const a=rnd(12,25),b=rnd(3,12);return [B(`What is ${a} × ${b}?`,`${a} × ${b} ఎంత?`),numOpts(a*b,20)]}
+    if(t===2){const n=[2,4,5,8,10][rnd(0,4)];return [B(`What is ${n}/10 as a decimal?`,`${n}/10 ను దశాంశ రూపంలో రాయండి.`),[String(n/10),String(n/100),String(n),String((n+1)/10)]]}
+    const l=rnd(5,30),w=rnd(3,20);return [B(`A rectangle is ${l} cm long and ${w} cm wide. What is its area?`,`పొడవు ${l} సెం.మీ., వెడల్పు ${w} సెం.మీ. ఉన్న దీర్ఘచతురస్రం వైశాల్యం ఎంత?`),numOpts(l*w,20)];
+  }
+  if(cls<=7){
+    if(t===0){const a=rnd(-30,50),b=rnd(-20,30);return [B(`What is ${a} + (${b})?`,`${a} + (${b}) ఎంత?`),numOpts(a+b,10)]}
+    if(t===1){const a=rnd(2,12),b=rnd(12,45);return [B(`Simplify the fraction ${a*b}/${b}.`,`${a*b}/${b} భిన్నాన్ని సరళీకరించండి.`),[String(a),String(b),String(a*b),String(a+b)]]}
+    if(t===2){const a=rnd(2,12),x=rnd(2,15);return [B(`If ${a}x = ${a*x}, what is x?`,`${a}x = ${a*x} అయితే x విలువ ఎంత?`),numOpts(x,5)]}
+    const a=rnd(3,15),b=rnd(2,12);return [B(`What is the ratio ${a*b}:${b} in simplest form?`,`${a*b}:${b} నిష్పత్తిని సరళ రూపంలో రాయండి.`),[`${a}:1`,`${b}:1`,`${a*b}:1`,`1:${a}`]];
+  }
+  if(cls===8){
     if(t===0){const p=[10,20,25,50][rnd(0,3)],n=rnd(2,20)*20;return [B(`What is ${p}% of ${n}?`,`${n} లో ${p}% ఎంత?`),numOpts(n*p/100,10)]}
-    if(t===1){const a=rnd(12,45),b=rnd(11,25);return [B(`What is ${a} × ${b}?`,`${a} × ${b} ఎంత?`),numOpts(a*b,30)]}
-    const l=rnd(3,15),w=rnd(2,12);return [B(`A rectangle is ${l} cm long and ${w} cm wide. What is its area in cm²?`,`ఒక దీర్ఘచతురస్రం పొడవు ${l} సెం.మీ., వెడల్పు ${w} సెం.మీ. దాని వైశాల్యం ఎన్ని చ.సెం.మీ.?`),numOpts(l*w,8)];
+    if(t===1){const x=rnd(2,15),a=rnd(2,9),b=rnd(1,20);return [B(`Solve for x: ${a}x + ${b} = ${a*x+b}.`,`x విలువ కనుగొనండి: ${a}x + ${b} = ${a*x+b}.`),numOpts(x,4)]}
+    if(t===2){const n=rnd(11,25);return [B(`What is ${n}²?`,`${n}² ఎంత?`),numOpts(n*n,25)]}
+    const l=rnd(3,15),w=rnd(2,12);return [B(`A rectangle is ${l} cm long and ${w} cm wide. What is its area?`,`పొడవు ${l} సెం.మీ., వెడల్పు ${w} సెం.మీ. ఉన్న దీర్ఘచతురస్రం వైశాల్యం ఎంత?`),numOpts(l*w,8)];
   }
-  if(t===0){const n=rnd(11,25);return [B(`What is ${n}²?`,`${n}² ఎంత?`),numOpts(n*n,25)]}
-  if(t===1){const x=rnd(2,15),a=rnd(2,9),b=rnd(1,20);return [B(`Solve for x: ${a}x + ${b} = ${a*x+b}`,`x విలువ కనుగొనండి: ${a}x + ${b} = ${a*x+b}`),numOpts(x,4)]}
-  const n=[144,169,196,225,256,289,324,361,400,441,484,529,576,625][rnd(0,13)];return [B(`What is √${n}?`,`√${n} ఎంత?`),numOpts(Math.sqrt(n),4)];
+  if(cls===9){
+    if(t===0){const x=rnd(2,15),a=rnd(2,9),b=rnd(1,20);return [B(`Solve for x: ${a}x + ${b} = ${a*x+b}.`,`x విలువ కనుగొనండి: ${a}x + ${b} = ${a*x+b}.`),numOpts(x,4)]}
+    if(t===1){const n=rnd(11,25);return [B(`What is ${n}²?`,`${n}² ఎంత?`),numOpts(n*n,25)]}
+    if(t===2){const n=[144,169,196,225,256,289,324,361,400][rnd(0,8)];return [B(`What is √${n}?`,`√${n} ఎంత?`),numOpts(Math.sqrt(n),4)]}
+    const a=rnd(3,15),b=rnd(2,12);return [B(`What is the area of a triangle with base ${a} cm and height ${b} cm?`,`భూమి ${a} సెం.మీ., ఎత్తు ${b} సెం.మీ. ఉన్న త్రిభుజం వైశాల్యం ఎంత?`),numOpts(a*b/2,8)];
+  }
+  if(t===0){const a=rnd(1,8),b=rnd(a+1,12);return [B(`For x² − ${a+b}x + ${a*b} = 0, what is the larger root?`,`x² − ${a+b}x + ${a*b} = 0 లో పెద్ద మూలం ఏది?`),numOpts(b,3)]}
+  if(t===1){const r=[7,14,21][rnd(0,2)];return [B(`Find the area of a circle with radius ${r} cm (π = 22/7).`,`${r} సెం.మీ. వ్యాసార్ధం ఉన్న వృత్త వైశాల్యం కనుగొనండి (π = 22/7).`),numOpts(22*r*r/7,60)]}
+  if(t===2){const a=rnd(30,60);return [B(`If sin θ = 1/2 and θ is an acute angle, what is θ?`,`sin θ = 1/2 మరియు θ లఘు కోణం అయితే θ ఎంత?`),["30°","45°","60°","90°"]]}
+  const p=[10,20,25,50][rnd(0,3)],n=rnd(2,20)*20;return [B(`What is ${p}% of ${n}?`,`${n} లో ${p}% ఎంత?`),numOpts(n*p/100,10)];
 }
 
 /* ================= Generated question groups (for no-repeat variety) ================= */
@@ -1936,6 +1963,61 @@ function buildQuiz(subjects, cls, region, opt={}){
   };
   const bankIds=(bk,blv)=> BANK[bk]&&BANK[bk][blv] ? BANK[bk][blv].map((_,k)=>`b:${bk}:${blv}:${k}`) : [];
   const topicQs=(s,n)=>{
+    if(s==="telugu"){
+      const band=mc<=2?0:mc<=4?1:mc<=7?2:3;
+      const rows=[
+        [
+          ["Which Telugu letter is a vowel: అ, క, చ, ట?","అ, క, చ, ట లలో అచ్చు ఏది?",["అ","క","చ","ట"]],
+          ["Which letter begins the Telugu word అమ్మ?","అమ్మ అనే పదం ఏ అక్షరంతో మొదలవుతుంది?",["అ","ఆ","ఇ","ఉ"]],
+          ["Which of these is a Telugu vowel?","వీటిలో తెలుగు అచ్చు ఏది?",["ఇ","క","త","ప"]],
+          ["Which word means mother in Telugu?","అమ్మను సూచించే పదం ఏది?",["అమ్మ","అన్నం","ఆకు","ఇల్లు"]],
+          ["Which letter comes after అ in the usual vowel sequence?","అచ్చుల వరుసలో అ తర్వాత ఏ అచ్చు వస్తుంది?",["ఆ","ఇ","ఈ","ఉ"]],
+          ["Which word names a fruit?","పండును సూచించే పదం ఏది?",["మామిడి","కుర్చీ","పుస్తకం","బల్ల"]],
+          ["Which letter is a consonant?","వీటిలో హల్లు ఏది?",["క","అ","ఆ","ఇ"]],
+          ["Which word means house in Telugu?","ఇంటిని సూచించే పదం ఏది?",["ఇల్లు","నీరు","చెట్టు","పాలు"]],
+          ["Which word starts with the letter క?","క అక్షరంతో మొదలయ్యే పదం ఏది?",["కలము","అమ్మ","ఇల్లు","ఊరు"]],
+          ["Which one is a Telugu word for water?","నీటిని సూచించే తెలుగు పదం ఏది?",["నీరు","నేల","నెమలి","నది"]]
+        ],
+        [
+          ["What is the opposite of పెద్ద?","పెద్ద అనే పదానికి వ్యతిరేక పదం ఏది?",["చిన్న","పొడవు","మంచి","వేగం"]],
+          ["Which word is a name of a person?","వ్యక్తి పేరును సూచించే పదం ఏది?",["రాము","చెట్టు","నీరు","పుస్తకం"]],
+          ["What is the plural of పుస్తకం?","పుస్తకం బహువచనం ఏది?",["పుస్తకాలు","పుస్తకము","పుస్తకానికి","పుస్తకంతో"]],
+          ["Which word is the opposite of మంచి?","మంచి అనే పదానికి వ్యతిరేక పదం ఏది?",["చెడు","మేలు","సంతోషం","శుభం"]],
+          ["Which one is an action word?","పనిని తెలిపే పదం ఏది?",["పరుగెత్తు","పచ్చ","పుస్తకం","ఇల్లు"]],
+          ["Which word names an animal?","జంతువును సూచించే పదం ఏది?",["కుక్క","బల్ల","నీరు","ఆకాశం"]],
+          ["Which is a synonym for సూర్యుడు?","సూర్యుడు అనే పదానికి పర్యాయపదం ఏది?",["భానుడు","చంద్రుడు","నక్షత్రం","మేఘం"]],
+          ["Which word is singular?","ఏకవచన పదం ఏది?",["పిల్లి","పిల్లులు","పుస్తకాలు","చెట్లు"]],
+          ["Which mark ends a question?","ప్రశ్న చివర ఏ చిహ్నం వాడతారు?",["?",".",",","!"]],
+          ["Which word means a tree?","చెట్టును సూచించే పదం ఏది?",["వృక్షం","పక్షి","గాలి","చేప"]]
+        ],
+        [
+          ["Which is a synonym for సంతోషం?","సంతోషం అనే పదానికి పర్యాయపదం ఏది?",["ఆనందం","దుఃఖం","కోపం","భయం"]],
+          ["Which is the opposite of వెలుగు?","వెలుగు అనే పదానికి వ్యతిరేక పదం ఏది?",["చీకటి","కాంతి","ప్రకాశం","దీపం"]],
+          ["Which word is a verb (క్రియ)?","క్రియను సూచించే పదం ఏది?",["చదువు","పుస్తకం","పచ్చని","వేగం"]],
+          ["Which is a plural noun?","బహువచన నామవాచకం ఏది?",["పిల్లలు","పిల్లవాడు","పుస్తకం","చెట్టు"]],
+          ["What is the opposite of ధైర్యం?","ధైర్యం అనే పదానికి వ్యతిరేక పదం ఏది?",["భయం","సాహసం","బలం","ఆనందం"]],
+          ["Which word describes a quality?","గుణాన్ని తెలిపే పదం ఏది?",["మంచి","పరుగెత్తు","తిను","వెళ్ళు"]],
+          ["Which is a synonym for భూమి?","భూమి అనే పదానికి పర్యాయపదం ఏది?",["నేల","ఆకాశం","సముద్రం","గాలి"]],
+          ["Which sentence is a question?","ప్రశ్నార్థక వాక్యం ఏది?",["నీవు ఎక్కడికి వెళ్తున్నావు?","నేను బడికి వెళ్తాను.","ఇది నా పుస్తకం.","అతను ఆడుతున్నాడు."]],
+          ["Which word is an adjective (విశేషణం)?","విశేషణాన్ని తెలిపే పదం ఏది?",["అందమైన","చదివాడు","వచ్చింది","పరుగెత్తు"]],
+          ["Which is a synonym for నీరు?","నీరు అనే పదానికి పర్యాయపదం ఏది?",["జలం","నిప్పు","గాలి","నేల"]]
+        ],
+        [
+          ["Which is a synonym for సముద్రం?","సముద్రం అనే పదానికి పర్యాయపదం ఏది?",["సాగరం","పర్వతం","అడవి","నగరం"]],
+          ["Which is the opposite of స్వతంత్రం?","స్వతంత్రం అనే పదానికి వ్యతిరేక పదం ఏది?",["పరతంత్రం","స్వేచ్ఛ","సాహసం","సమానం"]],
+          ["Which word is a క్రియావిశేషణం?","క్రియావిశేషణాన్ని తెలిపే పదం ఏది?",["వేగంగా","పుస్తకం","పిల్లవాడు","నీలం"]],
+          ["Which is a compound word (సమాస పదం)?","సమాస పదం ఏది?",["రాజపుత్రుడు","పుస్తకం","చెట్టు","నీరు"]],
+          ["Which figure of speech compares using వలె?","వలె అనే పోలిక పదం ఉన్న అలంకారం ఏది?",["ఉపమా అలంకారం","రూపక అలంకారం","యమకం","అనుప్రాస"]],
+          ["Which is the correct meaning of సామెత?","సామెత అంటే ఏమిటి?",["అనుభవంతో ఏర్పడిన ప్రజావాక్యం","వ్యక్తి పేరు","స్థలం పేరు","క్రియ పదం"]],
+          ["Which is a synonym for చంద్రుడు?","చంద్రుడు అనే పదానికి పర్యాయపదం ఏది?",["శశి","భానుడు","అగ్ని","మేఘం"]],
+          ["Which is the opposite of లాభం?","లాభం అనే పదానికి వ్యతిరేక పదం ఏది?",["నష్టం","ఆదాయం","వృద్ధి","మిగులు"]],
+          ["Which is a noun (నామవాచకం)?","నామవాచకం ఏది?",["విద్యార్థి","వేగంగా","మంచి","చదివాడు"]],
+          ["Which sentence expresses a command?","ఆజ్ఞను తెలిపే వాక్యం ఏది?",["దయచేసి తలుపు మూయండి.","నీ పేరు ఏమిటి?","ఆకాశం నీలంగా ఉంది.","అతను వచ్చాడు."]]
+        ]
+      ][band];
+      const ids=shuffle(rows.map((_,i)=>i)).slice(0,Math.min(n,rows.length));
+      return ids.map(i=>{const r=rows[i], opts=shuffle(r[2]);return {q:B(r[0],r[1]),opts:opts.map(x=>B(x)),ans:opts.indexOf(r[2][0]),pick:null,t:0,sub:s,sid:`te:${band}:${i}`};});
+    }
     if(s==="maths"){
       const seen=new Set();const pool=[];let g=0;
       while(pool.length<n&&g++<100){const [q,o]=mathQ(mc);if(!seen.has(q.en)){seen.add(q.en);pool.push([q,o.map(x=>B(x))])}}
@@ -1955,18 +2037,20 @@ function buildQuiz(subjects, cls, region, opt={}){
     let ids=[];
     const nReg = regional.length+regional2.length && n>1 ? Math.round(n*0.7) : 0;
     if(nReg) take([regional,regional2], nReg, ids);
-    take([general,general2,general3], n, ids);
+    take(cls ? [general] : [general,general2,general3], n, ids);
     if(ids.length<n){ take([regional,regional2], n, ids); }
     if(ids.length<n){
       const all=[...regional,...regional2,...general,...general2,...general3];
       all.forEach(id=>set.delete(id)); if(seenAll[key]) seenAll[key]=[];
       if(nReg) take([regional,regional2], nReg, ids);
-      take([general,general2,general3], n, ids);
+      take(cls ? [general] : [general,general2,general3], n, ids);
     }
     return ids.map(id=>{ const q = id.startsWith("b:") ? bankQuestion(id,s) : genQuestion(id,s); if(q) q.lvk=lv; return q; }).filter(Boolean);
   };
   let main=[];
   subjects.forEach((s,i)=>{ main=main.concat(topicQs(s,per[i])); });
+  // Never mix unselected subjects into a school quiz: keep every question within the chosen subject(s).
+  if(cls) return shuffle(main);
   const others=shuffle(SUBJECTS.map(x=>x.id).filter(id=>!subjects.includes(id))).slice(0,2);
   const extra=others.map(s=>{ const q=topicQs(s,1)[0]; if(q) q.opt=true; return q; }).filter(Boolean);
   return shuffle([...main, ...extra]);
@@ -3225,22 +3309,24 @@ function vFav(){
       <h1>${esc(t("favTitle")(u.name))}</h1>
       <p class="lead">${t("favLead")}</p>
       <div class="chips">
-        ${SUBJECTS.map(s=>{const on=sel.includes(s.id);return `<button class="chip" data-id="${s.id}" aria-pressed="${on}" ${!on&&sel.length>=2?"disabled":""}><span class="ic" aria-hidden="true">${s.ic}</span>${subName(s.id)}</button>`}).join("")}
+        ${(catOf(u)==="school"?SUBJECTS:SUBJECTS.filter(s=>["gk","computers","movies","sports","history","politics"].includes(s.id))).map(s=>{const on=sel.includes(s.id);return `<button class="chip" data-id="${s.id}" aria-pressed="${on}" ${!on&&sel.length>=2?"disabled":""}><span class="ic" aria-hidden="true">${s.ic}</span>${subName(s.id)}</button>`}).join("")}
       </div>
       <div class="counter">${t("selected")(sel.length)}</div>
-      <button class="btn" id="next" ${sel.length?"":"disabled"}>${catOf(u)==="school"?t("nextClass"):t("nextLevel")}</button>`;
+      <button class="btn" id="next" ${sel.length?"":"disabled"}>${catOf(u)==="school"&&sel.length>0&&sel.every(id=>["maths","english","telugu","science"].includes(id))?t("nextClass"):t("nextLevel")}</button>`;
     $app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
       const id=b.dataset.id; sel=sel.includes(id)?sel.filter(x=>x!==id):[...sel,id]; draw();
       $app.querySelector(`[data-id="${id}"]`)?.focus();
     });
-    document.getElementById("next").onclick=()=>{me().favs=sel.slice();save();go("cls");toast(t("okTopics"))};
+    document.getElementById("next").onclick=()=>{const cur=me();cur.favs=sel.slice();save();go("cls");toast(t("okTopics"))};
     if(!u.toured && !TOUR && !route.noTour) setTimeout(()=>{ if(route.name==="fav" && !me().toured && !TOUR) startTour(); },500);
   };
   draw();
 }
 
 function vClass(){
-  if(catOf(me())!=="school") return vLevel();
+  const chosen=(me().favs||[]);
+  const schoolSubjects=["maths","english","telugu","science"];
+  if(catOf(me())!=="school" || !chosen.length || !chosen.every(id=>schoolSubjects.includes(id))) return vLevel();
   let c=route.c||me().cls||null;
   const draw=()=>{
     const u=me();
@@ -3254,7 +3340,7 @@ function vClass(){
       ${quizSummary(u, c?t("classN")(c):"", !!c)}`;
     $app.querySelectorAll(".cls").forEach(b=>b.onclick=()=>{c=+b.dataset.c;draw();toast(t("okClass")(c));$app.querySelector(`[data-c="${c}"]`).focus()});
     document.getElementById("back").onclick=()=>go("fav",{sel:u.favs});
-    document.getElementById("start").onclick=()=>{const cur=me();cur.cls=c;const tp=(cur.favs||[]).filter(f=>BANK[f]||f==="maths");if(!tp.length)return go("fav");save();toast(t("okStart"));go("quiz",{quiz:{cls:c,subjects:tp.slice(),qs:buildQuiz(tp,c,regionOf(cur.state)),i:0,start:Date.now(),qStart:Date.now()}})};
+    document.getElementById("start").onclick=()=>{const cur=me();cur.cls=c;const tp=(cur.favs||[]).filter(f=>BANK[f]||f==="maths"||f==="telugu");if(!tp.length)return go("fav");save();toast(t("okStart"));go("quiz",{quiz:{cls:c,subjects:tp.slice(),qs:buildQuiz(tp,c,regionOf(cur.state)),i:0,start:Date.now(),qStart:Date.now()}})};
   };
   draw();
 }
@@ -3287,7 +3373,7 @@ function vLevel(){
       ${quizSummary(u, l?t("lvl_"+l):"", !!l)}`;
     $app.querySelectorAll(".lvl").forEach(b=>b.onclick=()=>{l=b.dataset.l;draw();toast(t("okLevel")(t("lvl_"+l)));$app.querySelector(`[data-l="${l}"]`).focus()});
     document.getElementById("back").onclick=()=>go("fav",{sel:u.favs});
-    document.getElementById("start").onclick=()=>{const cur=me();cur.lvl=l;const tp=(cur.favs||[]).filter(f=>BANK[f]||f==="maths");if(!tp.length)return go("fav");save();toast(t("okStart"));
+    document.getElementById("start").onclick=()=>{const cur=me();cur.lvl=l;const tp=(cur.favs||[]).filter(f=>BANK[f]||f==="maths"||f==="telugu");if(!tp.length)return go("fav");save();toast(t("okStart"));
       go("quiz",{quiz:{cls:null,lvl:l,subjects:tp.slice(),qs:buildQuiz(tp,null,regionOf(cur.state),LEVEL_MAP[l]),i:0,start:Date.now(),qStart:Date.now()}})};
   };
   draw();
