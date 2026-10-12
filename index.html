@@ -3069,10 +3069,7 @@ function vLogin(){
       <section class="auth-welcome">
         <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
         <div class="welcome-entry-card">
-          <div class="welcome-tagline-box">
-            <p class="tagline-display">${t("loginLead")}</p>
-            <p class="landing-subtitle">Your learning journey starts here</p>
-          </div>
+          <p class="tagline-display">${t("loginLead")}</p>
           <div class="auth-actions">
             <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
             <button class="link center welcome-forgot-link" type="button" id="chooseForgot">${t("forgot")}</button>
@@ -4254,7 +4251,7 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 
 
 <style id="welcome-main-page-only-refinement">
-/* Welcome screen only: one rectangle around both lines, with no nested card. */
+/* Welcome screen only: keep the tagline plain directly below the picture. */
 .auth-welcome .welcome-entry-card {
   box-sizing: border-box;
   width: min(100%, 460px);
@@ -4277,8 +4274,12 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   text-align: center;
 }
 .auth-welcome .welcome-entry-card .tagline-display {
-  margin: 0 auto 6px;
+  margin: 8px auto 16px;
   padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   font-size: clamp(1.3rem, 5vw, 1.8rem);
   line-height: 1.2;
 }
