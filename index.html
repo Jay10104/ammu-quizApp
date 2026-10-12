@@ -96,6 +96,8 @@ p.lead{color:var(--muted);margin:0 0 20px}
 .av.initial,.bigav .initial{display:inline-flex;align-items:center;justify-content:center;background:var(--blue-soft);color:var(--blue);font-weight:700}
 .bigav{width:150px;height:150px;margin:0 auto 12px;border-radius:50%;overflow:hidden;border:4px solid var(--accent);box-shadow:0 0 0 2px var(--line)}
 .bigav img,.bigav .initial{width:100%;height:100%;object-fit:cover;display:flex;font-size:3.4rem;border:0}
+/* The large profile photo uses the same avatar source as the top-right account icon. */
+.bigav .profile-avatar{width:100%;height:100%;object-fit:cover;display:block;border:0}
 .hero .lead{margin-bottom:8px}
 .stack{display:grid;gap:12px}
 .link.center{display:block;margin:0 auto}
@@ -2512,13 +2514,9 @@ function vPhoto(){
 
 function vProfile(){
   const un=S.session, u=me(), h=u.history||[];
-  // Use the exact avatar currently shown in the top-right account icon for the large profile photo.
-  const navAvatar=document.querySelector("#avSlot img, #avSlot span");
-  const mainAvatar=navAvatar
-    ? (navAvatar.tagName==="IMG"
-        ? `<img src="${esc(navAvatar.getAttribute("src")||"")}" alt="">`
-        : `<span class="initial" aria-hidden="true">${esc(navAvatar.textContent||"?")}</span>`)
-    : avatarHTML(un,"");
+  // Render the profile photo from the same account-avatar source used by the top-right icon.
+  // Do not copy the nav DOM: it may still contain a previous/stale avatar when this view opens.
+  const mainAvatar=avatarHTML(un, "profile-avatar");
   const taken=h.length, qTot=h.reduce((s,a)=>s+a.total,0), qOk=h.reduce((s,a)=>s+a.correct,0);
   const best=taken?Math.round(Math.max(...h.map(a=>a.correct/a.total))*100):0;
   const avgT=qTot?h.reduce((s,a)=>s+a.time,0)/qTot:0;
