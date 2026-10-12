@@ -2441,9 +2441,13 @@ function refreshThemeChoices(){
 
 /* ---------------- Profile & photo ---------------- */
 function avatarHTML(un, cls){
-  const ph=PH[un], a=S.accounts[un];
-  if(!ph && a && (a.gender==="female"||a.gender==="male")) return `<img class="${cls}" src="${a.gender==="female"?AV_GIRL:AV_BOY}" alt="">`;
-  return ph ? `<img class="${cls}" src="${ph}" alt="">` : `<span class="${cls} initial" aria-hidden="true">${esc((a?.name||"?").trim().charAt(0).toUpperCase())}</span>`;
+  const ph=PH[un];
+  // Only the large profile picture uses the repository icon.svg by default.
+  // Keep the small top-right icon's existing initials fallback unchanged.
+  if(ph) return `<img class="${cls}" src="${ph}" alt="Profile photo">`;
+  if(cls === "profile-avatar") return `<img class="${cls}" src="./icon.svg" alt="Profile icon">`;
+  const label=(me(un)?.name || un || "?").trim().charAt(0).toUpperCase();
+  return `<span class="${cls} initial" aria-label="${esc(me(un)?.name || un || 'Profile')}">${esc(label)}</span>`;
 }
 function readPhoto(file){
   return new Promise((res,rej)=>{
