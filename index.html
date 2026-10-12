@@ -2946,7 +2946,7 @@ const field = (id,label,attrs="",val="")=>`<label class="f" for="${id}">${label}
 function authControlsMarkup(){
   const te = lang()==="te";
   return `<div class="auth-bottom-options" aria-label="Page options">
-    <button type="button" class="auth-option" id="authModeToggle" aria-label="${te?"లైట్ లేదా డార్క్ మోడ్ మార్చండి":"Toggle dark or light mode"}">
+    <button type="button" class="auth-option auth-mode-option ${curAppearance()==="dark"?"is-dark":"is-light"}" id="authModeToggle" aria-label="${te?"లైట్ లేదా డార్క్ మోడ్ మార్చండి":"Toggle dark or light mode"}">
       <span class="auth-option-icon" aria-hidden="true">${curAppearance()==="dark"?"🌙":"☀️"}</span>
       <span>${curAppearance()==="dark"?(te?"డార్క్":"Dark"):(te?"లైట్":"Light")}</span>
       <span class="auth-switch" aria-hidden="true"><i style="transform:translateX(${curAppearance()==="dark"?"18px":"0"})"></i></span>
@@ -3632,5 +3632,127 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   .auth-option { font-size: .74rem; padding: 5px 4px; }
 }
 </style>
+
+
+<style id="landing-single-screen-final-fix">
+/* Starting page: balanced, login-like alignment that fits one screen. */
+.auth-welcome {
+  box-sizing: border-box;
+  width: min(100%, 490px);
+  max-width: 490px;
+  height: 100dvh;
+  min-height: 0;
+  margin: 0 auto;
+  padding: max(8px, env(safe-area-inset-top, 0px)) 16px max(6px, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  overflow: hidden;
+}
+.auth-welcome .landing-square {
+  display: block;
+  flex: 0 1 auto;
+  width: clamp(100px, 29vh, 158px);
+  max-width: 43vw;
+  aspect-ratio: 1;
+  height: auto;
+  object-fit: cover;
+  margin: 2px auto 8px;
+  border-radius: 23px;
+}
+.auth-welcome .tagline-display {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0 auto 12px;
+  padding: 0;
+  font-size: clamp(1.25rem, 5.3vw, 1.9rem);
+  line-height: 1.16;
+  letter-spacing: .01em;
+}
+.auth-welcome .auth-actions {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 460px;
+  margin: 6px auto 0;
+  gap: 10px;
+}
+.auth-welcome .auth-action {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 58px;
+  padding: 9px 5px;
+  border-radius: 14px;
+  gap: 7px;
+}
+.auth-welcome .auth-action-icon { font-size: clamp(1.75rem, 7vw, 2.15rem); }
+.auth-welcome .auth-home-back {
+  flex: 0 0 auto;
+  align-self: center;
+  min-width: 0;
+  min-height: 28px;
+  margin: 8px auto 0;
+  padding: 4px 11px;
+  font-size: .72rem;
+  line-height: 1.1;
+  border-radius: 14px;
+}
+.auth-welcome .auth-bottom-options {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 460px;
+  margin: auto auto 0;
+  padding: 8px 0 0;
+  gap: 8px;
+}
+.auth-welcome .auth-option {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 36px;
+  padding: 5px 6px;
+  gap: 5px;
+  font-size: .75rem;
+  line-height: 1.1;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.auth-welcome .auth-option-icon { font-size: 1rem; }
+.auth-welcome .auth-option-change { font-size: .68rem; }
+/* Explicit contrast so the Light option is clearly visible in either theme. */
+.auth-welcome .auth-mode-option.is-light {
+  background: #fff1b8 !important;
+  color: #4d3600 !important;
+  border: 1.5px solid #c98b00 !important;
+  box-shadow: 0 0 0 1px rgba(201,139,0,.16) !important;
+}
+.auth-welcome .auth-mode-option.is-light .auth-option-icon,
+.auth-welcome .auth-mode-option.is-light .auth-switch { color: #7a5100 !important; }
+.auth-welcome .auth-mode-option.is-light .auth-switch { background: #e7c66a !important; }
+.auth-welcome .auth-mode-option.is-light .auth-switch i { background: #875700 !important; }
+.auth-welcome .auth-mode-option.is-dark {
+  background: #263650 !important;
+  color: #fff !important;
+  border: 1.5px solid #7d9acb !important;
+}
+.auth-welcome .auth-mode-option.is-dark .auth-switch { background: #7185a5 !important; }
+.auth-welcome .auth-mode-option.is-dark .auth-switch i { background: #fff !important; }
+@media (max-height: 700px) {
+  .auth-welcome { padding-top: max(4px, env(safe-area-inset-top, 0px)); }
+  .auth-welcome .landing-square { width: clamp(88px, 23vh, 120px); margin: 0 auto 5px; border-radius: 19px; }
+  .auth-welcome .tagline-display { font-size: clamp(1.15rem, 4.5vw, 1.55rem); margin-bottom: 7px; }
+  .auth-welcome .auth-actions { margin-top: 3px; gap: 7px; }
+  .auth-welcome .auth-action { min-height: 50px; }
+  .auth-welcome .auth-home-back { margin-top: 5px; }
+  .auth-welcome .auth-bottom-options { padding-top: 5px; }
+}
+@media (max-width: 360px) {
+  .auth-welcome { padding-left: 11px; padding-right: 11px; }
+  .auth-welcome .auth-action { min-height: 51px; font-size: .82rem; }
+  .auth-welcome .auth-option { font-size: .69rem; padding-left: 3px; padding-right: 3px; }
+}
+</style>
+
 </body>
 </html>
