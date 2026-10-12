@@ -2099,7 +2099,7 @@ async function hash(pw, salt){
   }catch(e){let h=0;for(const ch of txt){h=(h*31+ch.charCodeAt(0))|0}return "x"+h}
 }
 
-const AMMU_IMG='https://static.vecteezy.com/system/resources/previews/032/184/743/non_2x/quiz-logo-icon-symbol-flat-cartoon-bubble-speeches-with-question-and-check-mark-signs-as-competition-game-or-interview-logotype-poll-or-questionnaire-modern-creative-horizontal-vector.jpg';
+const AMMU_IMG=AV_GIRL;
 /* ---------------- Language ---------------- */
 const T = {
  en:{
@@ -2441,13 +2441,12 @@ function refreshThemeChoices(){
 
 /* ---------------- Profile & photo ---------------- */
 function avatarHTML(un, cls){
-  const ph=PH[un];
-  // Only the large profile picture uses the repository icon.svg by default.
-  // Keep the small top-right icon's existing initials fallback unchanged.
+  const ph=PH[un], a=S.accounts[un];
+  // Reuse the same avatar source for the top-right icon and the large profile picture.
   if(ph) return `<img class="${cls}" src="${ph}" alt="Profile photo">`;
-  if(cls === "profile-avatar") return `<img class="${cls}" src="./icon.svg" alt="Profile icon">`;
-  const label=(me(un)?.name || un || "?").trim().charAt(0).toUpperCase();
-  return `<span class="${cls} initial" aria-label="${esc(me(un)?.name || un || 'Profile')}">${esc(label)}</span>`;
+  if(a && (a.gender==="female" || a.gender==="male"))
+    return `<img class="${cls}" src="${a.gender==="female" ? AV_GIRL : AV_BOY}" alt="Profile avatar">`;
+  return `<img class="${cls}" src="${AV_GIRL}" alt="Profile avatar">`;
 }
 function readPhoto(file){
   return new Promise((res,rej)=>{
