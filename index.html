@@ -2029,7 +2029,7 @@ let S = {accounts:{}, session:null};
 let dbRef=null, writeChain=Promise.resolve(), sumRef=null, dbCap=null, userCap=null, myId=null;
 try{const raw=localStorage.getItem(LS_KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
 // Migrate the previous combined Light/Dark/theme setting into independent controls.
-if(!S.appearance) S.appearance = (S.theme==="dark") ? "dark" : "light";
+if(!S.appearance) S.appearance = "dark"; // Default to dark mode for first-time visitors; preserve saved preferences.
 if(!["light","dark"].includes(S.appearance)) S.appearance="light";
 if(!["ocean","forest","sunset","lavender"].includes(S.theme)) S.theme="ocean";
 
@@ -4190,6 +4190,56 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   .auth-welcome .provided-by { font-size: .65rem !important; gap: 4px !important; }
   .auth-welcome .provided-by img { width: 21px !important; height: 21px !important; }
   .auth-welcome .landing-footer .auth-option { padding: 4px 5px !important; font-size: .64rem !important; }
+}
+/* Final welcome-page spacing refinement: preserve existing content and images. */
+.auth-welcome .landing-create {
+  margin-top: 8px !important;
+}
+.auth-welcome .landing-footer {
+  padding-top: 8px !important;
+}
+@media (max-height: 760px) {
+  .auth-welcome { padding-top: 8px !important; }
+  .auth-welcome .landing-square { margin-bottom: 7px !important; }
+  .auth-welcome .landing-subtitle { margin-bottom: 10px !important; }
+  .auth-welcome .landing-create { margin-top: 7px !important; }
+  .auth-welcome .landing-footer { padding-top: 6px !important; }
+}
+
+
+/* Welcome footer alignment: Dark on the left, Provided by Jay exactly centered, Language on the right. */
+.auth-welcome .landing-footer {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: initial !important;
+  column-gap: 6px !important;
+  width: 100% !important;
+}
+.auth-welcome .landing-footer .auth-bottom-options {
+  display: contents !important;
+}
+.auth-welcome .landing-footer .auth-mode-option {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  justify-self: start !important;
+}
+.auth-welcome .landing-footer .provided-by {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  justify-self: center !important;
+  text-align: center !important;
+}
+.auth-welcome .landing-footer #authLangToggle {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  justify-self: end !important;
+}
+@media (max-width: 360px) {
+  .auth-welcome .landing-footer { column-gap: 3px !important; }
+  .auth-welcome .landing-footer .provided-by { font-size: .61rem !important; gap: 3px !important; }
+  .auth-welcome .landing-footer .provided-by img { width: 19px !important; height: 19px !important; }
+  .auth-welcome .landing-footer .auth-option { padding: 4px !important; font-size: .62rem !important; }
 }
 </style>
 
