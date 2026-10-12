@@ -4243,7 +4243,7 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 .auth-welcome .landing-credit { margin-top: 12px !important; }
 @media (max-height: 740px) {
   .auth-welcome { padding-top: 6px !important; }
-  .auth-welcome .tagline-display { margin-top: 7px !important; margin-bottom: 12px !important; padding: 10px !important; }
+  .auth-welcome .tagline-display { margin-top: 7px !important; margin-bottom: 12px !important; padding: 0 !important; border: 0 !important; background: transparent !important; box-shadow: none !important; }
   .auth-welcome .auth-actions { padding: 10px !important; gap: 8px !important; }
   .auth-welcome .auth-action { min-height: 44px !important; }
 }
@@ -4251,7 +4251,7 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 
 
 <style id="welcome-main-page-only-refinement">
-/* Welcome screen only: keep the tagline plain directly below the picture. */
+/* Welcome screen only: tagline is plain text directly below the picture, with no box or background. */
 .auth-welcome .welcome-entry-card {
   box-sizing: border-box;
   width: min(100%, 460px);
@@ -4266,20 +4266,20 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto 16px;
-  padding: 16px 14px;
-  border: 1.5px solid var(--line);
-  border-radius: 10px;
-  background: var(--paper);
-  box-shadow: 0 6px 18px rgba(30, 45, 90, .08);
-  text-align: center;
-}
-.auth-welcome .welcome-entry-card .tagline-display {
-  margin: 8px auto 16px;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  text-align: center;
+}
+.auth-welcome .welcome-entry-card .tagline-display {
+  margin: 8px auto 16px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   font-size: clamp(1.3rem, 5vw, 1.8rem);
   line-height: 1.2;
 }
@@ -4301,7 +4301,7 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 }
 @media (max-width: 380px) {
   .auth-welcome .welcome-entry-card { padding: 0; }
-  .auth-welcome .welcome-tagline-box { padding: 13px 10px; margin-bottom: 13px; }
+  .auth-welcome .welcome-tagline-box { padding: 0; margin-bottom: 13px; border: 0; background: transparent; box-shadow: none; }
   .auth-welcome .welcome-entry-card .landing-subtitle { font-size: .9rem; }
   .auth-welcome .welcome-entry-card .auth-actions { gap: 8px; }
 }
