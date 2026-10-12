@@ -2158,8 +2158,8 @@ const T = {
   app:"Tejaswini Quiz", myResults:"My results", logout:"Log out",
   leave:"Leave this quiz? Your answers won't be saved.",
   loginLead:"Quiz • Learn • Grow",
-  login:"Log in", create:"Create account", yourName:"Your name", namePh:"e.g. Ravi",
-  username:"Username", unPh:"e.g. ravi7", password:"Password", pwPh:"At least 4 characters",
+  login:"Log in", create:"Create account", yourName:"Your name", namePh:"e.g. Ammu",
+  username:"Username", unPh:"e.g. ammu7", password:"Password", pwPh:"At least 4 characters",
   loginHint:"Accounts are saved for this app only. Each student can make their own account.",
   errUser:"Username needs 3–20 letters or numbers, no spaces.", errPw:"Password needs at least 4 characters.",
   errName:"Enter your name.", errTaken:"That username is taken. Try another or log in.",
@@ -2242,8 +2242,8 @@ const T = {
   app:"తేజస్విని క్విజ్", myResults:"నా ఫలితాలు", logout:"లాగ్ అవుట్",
   leave:"ఈ క్విజ్ నుండి బయటకు వెళ్లాలా? మీ జవాబులు సేవ్ కావు.",
   loginLead:"Quiz • Learn • Grow",
-  login:"లాగిన్", create:"ఖాతా సృష్టించండి", yourName:"మీ పేరు", namePh:"ఉదా: రవి",
-  username:"యూజర్ పేరు", unPh:"ఉదా: ravi7", password:"పాస్‌వర్డ్", pwPh:"కనీసం 4 అక్షరాలు",
+  login:"లాగిన్", create:"ఖాతా సృష్టించండి", yourName:"మీ పేరు", namePh:"ఉదా: అమ్ము",
+  username:"యూజర్ పేరు", unPh:"ఉదా: ammu7", password:"పాస్‌వర్డ్", pwPh:"కనీసం 4 అక్షరాలు",
   loginHint:"ఖాతాలు ఈ యాప్‌లో మాత్రమే సేవ్ అవుతాయి. ప్రతి విద్యార్థి తమ సొంత ఖాతా సృష్టించుకోవచ్చు.",
   errUser:"యూజర్ పేరులో 3–20 ఇంగ్లీష్ అక్షరాలు లేదా అంకెలు ఉండాలి, ఖాళీలు ఉండకూడదు.", errPw:"పాస్‌వర్డ్‌లో కనీసం 4 అక్షరాలు ఉండాలి.",
   errName:"మీ పేరు నమోదు చేయండి.", errTaken:"ఈ యూజర్ పేరు ఇప్పటికే ఉంది. వేరేది ప్రయత్నించండి లేదా లాగిన్ అవ్వండి.",
@@ -2986,8 +2986,8 @@ function vLogin(){
         <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
         <p class="tagline-display">${t("loginLead")}</p>
         <div class="auth-actions">
-          <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true">👤</span><span>${t("login")}</span></button>
-          <button class="btn auth-action secondary" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true">👤<span class="auth-plus">+</span></span><span>${t("create")}</span></button>
+          <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
+          <button class="btn auth-action secondary" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="4"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0M19 8v8M15 12h8"/></svg></span><span>${t("create")}</span></button>
         </div>
         <button class="btn auth-home-back" type="button" id="landingBack">${t("backBtn")}</button>
         ${authControlsMarkup()}
@@ -3029,8 +3029,7 @@ function vLogin(){
         ${field("un",t("username"),`autocomplete="username" autocapitalize="none" placeholder="${t("unPh")}"`)}
         ${field("em",t("emailLbl"),`type="email" autocomplete="email" autocapitalize="none" placeholder="${t("emailPh")}"`)}
         ${field("ph",t("phoneLbl"),`type="tel" inputmode="tel" autocomplete="tel" placeholder="${t("phonePh")}"`)}
-        ${addressFields()}<div id="guardianConsentWrap" class="privacy-panel" hidden><label class="guardian-check"><input type="checkbox" id="guardianConsent"> <span><strong>Parent/guardian permission</strong><br>My parent or guardian agrees to me using this app.</span></label></div><p class="privacy-note">Privacy: name and quiz progress are saved on this device. Contact details are optional. Avoid entering private information you do not need to share.
-<br><span lang="te">గోప్యత: పేరు, క్విజ్ ఫలితాలు ఈ పరికరంలో సేవ్ అవుతాయి. సంప్రదింపు వివరాలు ఐచ్ఛికం.</span></p>`
+        ${addressFields()}<div id="guardianConsentWrap" class="privacy-panel" hidden><label class="guardian-check"><input type="checkbox" id="guardianConsent"> <span><strong>Parent/guardian permission</strong><br>My parent or guardian agrees to me using this app.</span></label></div>`
         :field("un",t("idLabel"),`autocomplete="username" autocapitalize="none" placeholder="${t("idPh")}"`)}
         ${field("pw",t("password"),`type="password" autocomplete="${mode==="up"?"new-password":"current-password"}" placeholder="${t("pwPh")}"`)}
         <div class="err" id="err" role="alert"></div>
@@ -3860,8 +3859,8 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 <style id="main-icon-and-bottom-left-back-final">
 /* Keep the landing screen balanced and keep the two utility controls visible without scrolling. */
 .auth-welcome .landing-square {
-  width: clamp(125px, 25vh, 185px) !important;
-  max-width: min(60vw, 185px) !important;
+  width: clamp(135px, 27vh, 200px) !important;
+  max-width: min(62vw, 200px) !important;
   margin: 2px auto 7px !important;
   border-radius: 24px !important;
 }
@@ -3929,8 +3928,8 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 .auth-welcome .auth-bottom-options .auth-option-change { font-size: .65rem !important; }
 @media (max-height: 700px) {
   .auth-welcome .landing-square {
-    width: clamp(105px, 21vh, 145px) !important;
-    max-width: min(52vw, 145px) !important;
+    width: clamp(112px, 23vh, 155px) !important;
+    max-width: min(55vw, 155px) !important;
   }
   .auth-welcome .tagline-display { margin-bottom: 7px !important; }
   .auth-welcome .auth-actions { margin-top: 4px !important; }
@@ -3944,5 +3943,100 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 }
 </style>
 
+
+<style id="landing-buttons-and-login-heading-polish">
+/* Main entry: give the slogan a little breathing room and stack the actions vertically. */
+.auth-welcome .tagline-display {
+  margin: 0 auto 18px !important;
+}
+.auth-welcome .auth-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: min(100%, 330px) !important;
+  max-width: 330px !important;
+  gap: 11px !important;
+  margin: 0 auto !important;
+}
+.auth-welcome .auth-action {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 56px !important;
+  padding: 12px 18px !important;
+  border-radius: 15px !important;
+  font-size: 1rem !important;
+  font-weight: 750 !important;
+  letter-spacing: .01em;
+}
+.auth-welcome .auth-action-icon {
+  display: inline-flex !important;
+  width: 27px !important;
+  height: 27px !important;
+  flex: 0 0 27px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.3rem !important;
+  line-height: 1 !important;
+}
+.auth-welcome .auth-action-icon svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Login/Create Account form heading: icon, title, and Back align cleanly on every screen. */
+.auth-form-head {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 12px auto 14px !important;
+  padding: 0 12px;
+  text-align: center !important;
+}
+.auth-form-head .auth-page-icon {
+  flex: 0 0 auto !important;
+  margin: 0 auto !important;
+}
+.auth-form-head .auth-title {
+  flex: 0 0 auto !important;
+  width: 100%;
+  min-width: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.auth-form-head .auth-back {
+  position: fixed !important;
+  left: 10px !important;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  z-index: 1000 !important;
+  margin: 0 !important;
+}
+@media (max-height: 700px) {
+  .auth-welcome .tagline-display { margin-bottom: 12px !important; }
+  .auth-welcome .auth-actions { gap: 8px !important; }
+  .auth-welcome .auth-action { min-height: 49px !important; }
+  .auth-form-head { margin-top: 6px !important; gap: 5px !important; }
+  .auth-form-head .auth-page-icon { width: 72px !important; height: 72px !important; }
+}
+
+/* Landing page: add a little breathing room between the Quiz • Learn • Grow tagline and the action buttons. */
+.auth-welcome .tagline-display {
+  margin-bottom: 26px !important;
+}
+</style>
 </body>
 </html>
