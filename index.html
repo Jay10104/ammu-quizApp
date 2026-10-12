@@ -481,9 +481,8 @@ header.bar .bandin{padding:8px 16px}
 /* ---------------- Question bank ---------------- */
 const SUBJECTS = [
   {id:"maths", name:"Maths", ic:"➗"},
-  {id:"english", name:"English", ic:"📖"},
-  {id:"telugu", name:"Telugu", ic:"అ"},
   {id:"science", name:"Science", ic:"🔬"},
+  {id:"english", name:"English", ic:"📖"},
   {id:"gk", name:"General knowledge", ic:"🌍"},
   {id:"computers", name:"Computers", ic:"💻"},
   {id:"movies", name:"Movies", ic:"🎬"},
@@ -648,7 +647,7 @@ const BANK = {
 };
 
 /* Telugu versions. null options = same as English (names, codes, numbers, English-language answers) */
-const SUB_TE = {maths:"గణితం", science:"సైన్స్", english:"ఇంగ్లీష్", telugu:"తెలుగు", gk:"సాధారణ జ్ఞానం", computers:"కంప్యూటర్లు"};
+const SUB_TE = {maths:"గణితం", science:"సైన్స్", english:"ఇంగ్లీష్", gk:"సాధారణ జ్ఞానం", computers:"కంప్యూటర్లు"};
 const BANK_TE = {
  science:{
   junior:[
@@ -1251,114 +1250,11 @@ BANK_TE.sports.advanced=[
  ["వాలీబాల్ జట్టులో కోర్టులో ఎంత మంది ఆటగాళ్ళు ఉంటారు?",null],
  ["మిల్ఖా సింగ్‌ను ఏమని పిలుస్తారు?",null],
  ["2011 క్రికెట్ ప్రపంచ కప్ ఫైనల్ ఏ నగరంలో జరిగింది?",["ముంబై","కోల్‌కతా","కొలంబో","ఢాకా"]]];
-BANK.telugu = {
- junior:[
-  ["Which Telugu letter starts the word అమ్మ?",["అ","ఆ","ఇ","ఉ"]],
-  ["What is the Telugu word for mother?",["అమ్మ","నాన్న","అక్క","తమ్ముడు"]],
-  ["Which of these is a Telugu vowel?",["అ","క","చ","ట"]],
-  ["What is the plural form of పుస్తకం?",["పుస్తకాలు","పుస్తకము","పుస్తకానికి","పుస్తకంతో"]],
-  ["Which word means water in Telugu?",["నీరు","గాలి","నిప్పు","నేల"]],
-  ["Which is a Telugu greeting?",["నమస్కారం","ధన్యవాదాలు","క్షమించండి","శుభరాత్రి"]],
-  ["Which word means school in Telugu?",["పాఠశాల","ఆసుపత్రి","దుకాణం","తోట"]],
-  ["Which of these is a Telugu consonant?",["క","అ","ఆ","ఈ"]],
-  ["What is the Telugu word for book?",["పుస్తకం","కలం","బల్ల","కిటికీ"]],
-  ["Which word means sun in Telugu?",["సూర్యుడు","చంద్రుడు","నక్షత్రం","మేఘం"]]
- ],
- middle:[
-  ["Which is the opposite of మంచి?",["చెడు","మంచి","పెద్ద","చిన్న"]],
-  ["Which word is a verb?",["పరుగెత్తు","పుస్తకం","పచ్చని","అందమైన"]],
-  ["What is the plural of చెట్టు?",["చెట్లు","చెట్టుకు","చెట్టుతో","చెట్టులో"]],
-  ["Which word means friendship?",["స్నేహం","ధైర్యం","ఆకలి","వెలుగు"]],
-  ["Which is a synonym for ఆనందం?",["సంతోషం","దుఃఖం","కోపం","భయం"]],
-  ["Which punctuation mark ends a question?",["ప్రశ్నార్థకం (?)","పూర్ణవిరామం (.)","ఆశ్చర్యార్థకం (!) ","అల్పవిరామం (,)"]],
-  ["In the sentence రాము పుస్తకం చదివాడు, who read the book?",["రాము","పుస్తకం","చదివాడు","ఎవరూ కాదు"]],
-  ["Which word describes a noun?",["విశేషణం","క్రియ","సర్వనామం","అవ్యయం"]],
-  ["Which is the opposite of వెలుగు?",["చీకటి","ప్రకాశం","కాంతి","ఉదయం"]],
-  ["Which word is a pronoun?",["అతను","పిల్లి","పచ్చని","నడిచాడు"]]
- ],
- senior:[
-  ["Which figure of speech uses a direct comparison without like or as?",["రూపకం","ఉపమ","అతిశయోక్తి","యమకం"]],
-  ["What is the grammatical term for a word that names a person, place, or thing?",["నామవాచకం","క్రియ","విశేషణం","అవ్యయం"]],
-  ["Which is a synonym for ధైర్యం?",["సాహసం","భయం","బలహీనత","దుఃఖం"]],
-  ["Which is the correct sandhi form of దేవ + ఆలయం?",["దేవాలయం","దేవుఆలయం","దేవాలయముు","దేవాలయా"]],
-  ["Which literary form commonly tells a story in verse?",["కావ్యం","వ్యాసం","లేఖ","వార్త"]],
-  ["Which word is an abstract noun?",["మానవత్వం","కుర్చీ","చెట్టు","పుస్తకం"]],
-  ["What does సామెత mean?",["Proverb","Letter","Poem","Question"]],
-  ["Which is the opposite of స్వాతంత్ర్యం?",["బానిసత్వం","స్వేచ్ఛ","సాహసం","సమానత్వం"]],
-  ["Which is a correct synonym for భూమి?",["ధరణి","ఆకాశం","సముద్రం","అగ్ని"]],
-  ["Which grammatical category indicates an action?",["క్రియ","నామవాచకం","సర్వనామం","విశేషణం"]]
- ],
- advanced:[
-  ["Which Telugu grammatical concept describes the joining of sounds or words?",["సంధి","సమాసం","అలంకారం","ఛందస్సు"]],
-  ["Which term describes a compound word formed from two or more words?",["సమాసం","సంధి","విభక్తి","క్రియ"]],
-  ["Which literary device repeats similar sounds at the beginning of words?",["అనుప్రాస","ఉపమ","రూపకం","అతిశయోక్తి"]],
-  ["A word with the same meaning as another word is called a…",["పర్యాయపదం","వ్యతిరేక పదం","నానార్థం","క్రియ"]],
-  ["A word that has more than one meaning is called…",["నానార్థ పదం","పర్యాయపదం","విశేషణం","సర్వనామం"]],
-  ["Which is the opposite of ప్రాచీన?",["ఆధునిక","పురాతన","పాత","చారిత్రక"]],
-  ["Which meter is a feature of Telugu poetry?",["ఛందస్సు","సంధి","విభక్తి","సర్వనామం"]],
-  ["Which is a correct synonym for సముద్రం?",["సాగరం","పర్వతం","అడవి","ఆకాశం"]],
-  ["Which grammatical case marker appears in రామునికి?",["చతుర్థీ విభక్తి","ప్రథమా విభక్తి","ద్వితీయా విభక్తి","సప్తమీ విభక్తి"]],
-  ["Which is a formal Telugu word for language?",["భాష","భూమి","భావం","భవనం"]]
- ]
-};
-BANK_TE.telugu = {
- junior:[
-  ["అమ్మ అనే పదం ఏ అచ్చుతో మొదలవుతుంది?",["అ","ఆ","ఇ","ఉ"]],
-  ["Mother కు తెలుగు పదం ఏది?",["అమ్మ","నాన్న","అక్క","తమ్ముడు"]],
-  ["వీటిలో తెలుగు అచ్చు ఏది?",["అ","క","చ","ట"]],
-  ["పుస్తకం పదానికి బహువచనం ఏది?",["పుస్తకాలు","పుస్తకము","పుస్తకానికి","పుస్తకంతో"]],
-  ["నీటిని సూచించే పదం ఏది?",["నీరు","గాలి","నిప్పు","నేల"]],
-  ["తెలుగు పలకరింపు ఏది?",["నమస్కారం","ధన్యవాదాలు","క్షమించండి","శుభరాత్రి"]],
-  ["School కు తెలుగు పదం ఏది?",["పాఠశాల","ఆసుపత్రి","దుకాణం","తోట"]],
-  ["వీటిలో తెలుగు హల్లు ఏది?",["క","అ","ఆ","ఈ"]],
-  ["Book కు తెలుగు పదం ఏది?",["పుస్తకం","కలం","బల్ల","కిటికీ"]],
-  ["సూర్యుడిని సూచించే పదం ఏది?",["సూర్యుడు","చంద్రుడు","నక్షత్రం","మేఘం"]]
- ],
- middle:[
-  ["మంచి పదానికి వ్యతిరేక పదం ఏది?",["చెడు","మంచి","పెద్ద","చిన్న"]],
-  ["వీటిలో క్రియ ఏది?",["పరుగెత్తు","పుస్తకం","పచ్చని","అందమైన"]],
-  ["చెట్టు పదానికి బహువచనం ఏది?",["చెట్లు","చెట్టుకు","చెట్టుతో","చెట్టులో"]],
-  ["స్నేహాన్ని సూచించే పదం ఏది?",["స్నేహం","ధైర్యం","ఆకలి","వెలుగు"]],
-  ["ఆనందానికి పర్యాయపదం ఏది?",["సంతోషం","దుఃఖం","కోపం","భయం"]],
-  ["ప్రశ్న చివర ఉపయోగించే విరామ చిహ్నం ఏది?",["ప్రశ్నార్థకం (?)","పూర్ణవిరామం (.)","ఆశ్చర్యార్థకం (!) ","అల్పవిరామం (,)"]],
-  ["రాము పుస్తకం చదివాడు అనే వాక్యంలో చదివింది ఎవరు?",["రాము","పుస్తకం","చదివాడు","ఎవరూ కాదు"]],
-  ["నామవాచకాన్ని వివరించే పదాన్ని ఏమంటారు?",["విశేషణం","క్రియ","సర్వనామం","అవ్యయం"]],
-  ["వెలుగు పదానికి వ్యతిరేక పదం ఏది?",["చీకటి","ప్రకాశం","కాంతి","ఉదయం"]],
-  ["వీటిలో సర్వనామం ఏది?",["అతను","పిల్లి","పచ్చని","నడిచాడు"]]
- ],
- senior:[
-  ["లాగా, వలె వంటి పదాలు లేకుండా పోల్చే అలంకారం ఏది?",["రూపకం","ఉపమ","అతిశయోక్తి","యమకం"]],
-  ["వ్యక్తి, ప్రదేశం లేదా వస్తువు పేరును తెలిపే పదం ఏది?",["నామవాచకం","క్రియ","విశేషణం","అవ్యయం"]],
-  ["ధైర్యానికి పర్యాయపదం ఏది?",["సాహసం","భయం","బలహీనత","దుఃఖం"]],
-  ["దేవ + ఆలయం యొక్క సరైన సంధి రూపం ఏది?",["దేవాలయం","దేవుఆలయం","దేవాలయముు","దేవాలయా"]],
-  ["పద్యరూపంలో కథను చెప్పే సాహిత్య ప్రక్రియ ఏది?",["కావ్యం","వ్యాసం","లేఖ","వార్త"]],
-  ["వీటిలో భావవాచక నామవాచకం ఏది?",["మానవత్వం","కుర్చీ","చెట్టు","పుస్తకం"]],
-  ["సామెత అంటే ఏమిటి?",["నీతిని తెలిపే ప్రసిద్ధ వాక్యం","లేఖ","కవిత","ప్రశ్న"]],
-  ["స్వాతంత్ర్యానికి వ్యతిరేక పదం ఏది?",["బానిసత్వం","స్వేచ్ఛ","సాహసం","సమానత్వం"]],
-  ["భూమికి పర్యాయపదం ఏది?",["ధరణి","ఆకాశం","సముద్రం","అగ్ని"]],
-  ["చర్యను తెలిపే వ్యాకరణ పదవర్గం ఏది?",["క్రియ","నామవాచకం","సర్వనామం","విశేషణం"]]
- ],
- advanced:[
-  ["ధ్వనులు లేదా పదాలు కలిసే వ్యాకరణ ప్రక్రియ ఏది?",["సంధి","సమాసం","అలంకారం","ఛందస్సు"]],
-  ["రెండు లేదా అంతకంటే ఎక్కువ పదాలు కలిసి ఏర్పడిన పదాన్ని ఏమంటారు?",["సమాసం","సంధి","విభక్తి","క్రియ"]],
-  ["పదాల మొదట ఒకే విధమైన ధ్వనులు పునరావృతమయ్యే అలంకారం ఏది?",["అనుప్రాస","ఉపమ","రూపకం","అతిశయోక్తి"]],
-  ["ఒకే అర్థాన్ని ఇచ్చే మరో పదాన్ని ఏమంటారు?",["పర్యాయపదం","వ్యతిరేక పదం","నానార్థం","క్రియ"]],
-  ["ఒకటి కంటే ఎక్కువ అర్థాలు కలిగిన పదాన్ని ఏమంటారు?",["నానార్థ పదం","పర్యాయపదం","విశేషణం","సర్వనామం"]],
-  ["ప్రాచీన పదానికి వ్యతిరేక పదం ఏది?",["ఆధునిక","పురాతన","పాత","చారిత్రక"]],
-  ["తెలుగు పద్యానికి సంబంధించిన అంశం ఏది?",["ఛందస్సు","సంధి","విభక్తి","సర్వనామం"]],
-  ["సముద్రానికి పర్యాయపదం ఏది?",["సాగరం","పర్వతం","అడవి","ఆకాశం"]],
-  ["రామునికి అనే పదంలో ఏ విభక్తి ఉంది?",["చతుర్థీ విభక్తి","ప్రథమా విభక్తి","ద్వితీయా విభక్తి","సప్తమీ విభక్తి"]],
-  ["భాషను సూచించే సరైన పదం ఏది?",["భాష","భూమి","భావం","భవనం"]]
- ]
-};
 const LEVEL_MAP={low:{lv:"middle",mc:6},medium:{lv:"senior",mc:9},high:{lv:"advanced",mc:11}};
 const AV_GIRL="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#FFE1EA"/><circle cx="16" cy="30" r="8" fill="#2B1B17"/><circle cx="48" cy="30" r="8" fill="#2B1B17"/><path d="M14 64c0-10 8-15 18-15s18 5 18 15z" fill="#F06292"/><rect x="28" y="40" width="8" height="10" fill="#E8B48C"/><circle cx="32" cy="31" r="13" fill="#F5C9A0"/><path d="M19 31c-1-10 5-16 13-16s14 6 13 16c-2-5-6-8-10-8.5c-2 2.5-6 3.5-9.5 3.5c-3 0-5 1.5-6.5 5z" fill="#2B1B17"/><circle cx="27" cy="32" r="1.6" fill="#2B1B17"/><circle cx="37" cy="32" r="1.6" fill="#2B1B17"/><circle cx="32" cy="27" r=".9" fill="#E63946"/><path d="M29 37q3 2 6 0" fill="none" stroke="#9A4A3A" stroke-width="1.4" stroke-linecap="round"/><circle cx="24" cy="35.5" r="2" fill="#F48C8C" opacity=".5"/><circle cx="40" cy="35.5" r="2" fill="#F48C8C" opacity=".5"/></svg>');
 const AV_BOY="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#DCEAFF"/><path d="M14 64c0-10 8-15 18-15s18 5 18 15z" fill="#3A6FF0"/><rect x="28" y="40" width="8" height="10" fill="#D9A27A"/><circle cx="32" cy="31" r="13" fill="#EBB98F"/><circle cx="19.3" cy="32" r="2.4" fill="#EBB98F"/><circle cx="44.7" cy="32" r="2.4" fill="#EBB98F"/><path d="M19 29c-1-9 5-14 13-14s14 5 13 14c-3-4-7-5.5-12-5.5c-4.5 0-9 1.5-14 5.5z" fill="#2B1B17"/><circle cx="27" cy="32" r="1.6" fill="#2B1B17"/><circle cx="37" cy="32" r="1.6" fill="#2B1B17"/><path d="M28.5 37q3.5 2 7 0" fill="none" stroke="#8A4535" stroke-width="1.4" stroke-linecap="round"/></svg>');
 const attLabel = x => x && x.lvl ? t("lvl_"+x.lvl) : (x && x.cls ? t("classN")(x.cls) : "");
 const catOf = u => (u && u.cat) || "school";
-const SCHOOL_SUBJECT_IDS = new Set(["maths","english","telugu","science"]);
-const isSchoolSubject = id => SCHOOL_SUBJECT_IDS.has(id);
-const isSchoolSubjectSelection = subjects => !!(subjects && subjects.length && subjects.every(isSchoolSubject));
 function suggestedLevel(u){ if(catOf(u)==="senior" && (u.age||0)>=60) return "low"; return "medium"; }
 
 /* ---------------- History & Politics ---------------- */
@@ -2071,7 +1967,9 @@ function buildQuiz(subjects, cls, region, opt={}){
   };
   let main=[];
   subjects.forEach((s,i)=>{ main=main.concat(topicQs(s,per[i])); });
-  return shuffle(main);
+  const others=shuffle(SUBJECTS.map(x=>x.id).filter(id=>!subjects.includes(id))).slice(0,2);
+  const extra=others.map(s=>{ const q=topicQs(s,1)[0]; if(q) q.opt=true; return q; }).filter(Boolean);
+  return shuffle([...main, ...extra]);
 }
 function markSeen(qs){
   const acct=me(); if(!acct) return; acct.seen=acct.seen||{};
@@ -2131,7 +2029,7 @@ let S = {accounts:{}, session:null};
 let dbRef=null, writeChain=Promise.resolve(), sumRef=null, dbCap=null, userCap=null, myId=null;
 try{const raw=localStorage.getItem(LS_KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
 // Migrate the previous combined Light/Dark/theme setting into independent controls.
-if(!S.appearance) S.appearance = (S.theme==="light") ? "light" : "dark";
+if(!S.appearance) S.appearance = (S.theme==="dark") ? "dark" : "light";
 if(!["light","dark"].includes(S.appearance)) S.appearance="light";
 if(!["ocean","forest","sunset","lavender"].includes(S.theme)) S.theme="ocean";
 
@@ -3086,22 +2984,22 @@ function vLogin(){
     $app.innerHTML = `
       <section class="auth-welcome">
         <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
-        <p class="tagline-display">${t("loginLead")}</p>
-        <p class="landing-subtitle">Your learning journey starts here</p>
-        <div class="auth-actions">
-          <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
-          <button type="button" class="landing-forgot" id="landingForgot">${t("forgot")}</button>
-          <button class="btn auth-action secondary landing-create" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="4"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0M19 8v8M15 12h8"/></svg></span><span>${t("create")}</span></button>
+        <div class="welcome-entry-card">
+          <p class="tagline-display">${t("loginLead")}</p>
+          <p class="landing-subtitle">Your learning journey starts here</p>
+          <div class="auth-actions">
+            <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
+            <button class="btn auth-action secondary" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="4"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0M19 8v8M15 12h8"/></svg></span><span>${t("create")}</span></button>
+          </div>
         </div>
-        <div class="landing-footer">
-          <div class="provided-by"><img src="${AMMU_IMG}" alt=""><span>Provided by Jay</span></div>
-          ${authControlsMarkup()}
-        </div>
+        <div class="landing-credit">Provided by Jay</div>
+        <button class="btn auth-home-back" type="button" id="landingBack">${t("backBtn")}</button>
+        ${authControlsMarkup()}
       </section>`;
     wireAuthControls();
     document.getElementById("chooseLogin").onclick=()=>go("login",{mode:"in"});
     document.getElementById("chooseCreate").onclick=()=>go("login",{mode:"up"});
-    document.getElementById("landingForgot").onclick=()=>go("forgot",{step:1});
+    document.getElementById("landingBack").onclick=()=>{ if(typeof goBack==="function") goBack(); else go("home"); };
     return;
   }
   $app.innerHTML = `
@@ -3307,18 +3205,16 @@ function vEdit(){
 
 function vFav(){
   let u=me(); let sel=(route.sel||[]).slice(0,2);
-  if(sel.some(isSchoolSubject) && sel.some(x=>!isSchoolSubject(x))) sel=sel.filter(isSchoolSubject).slice(0,2);
   const draw=()=>{
     route.sel=sel;
     $app.innerHTML=`
       <h1>${esc(t("favTitle")(u.name))}</h1>
       <p class="lead">${t("favLead")}</p>
       <div class="chips">
-        ${SUBJECTS.map(s=>{const on=sel.includes(s.id);const hasSchool=sel.some(isSchoolSubject),hasOther=sel.some(x=>!isSchoolSubject(x));const familyBlocked=!on&&((hasSchool&&!isSchoolSubject(s.id))||(hasOther&&isSchoolSubject(s.id)));return `<button class="chip" data-id="${s.id}" aria-pressed="${on}" ${!on&&(sel.length>=2||familyBlocked)?"disabled":""}><span class="ic" aria-hidden="true">${s.ic}</span>${subName(s.id)}</button>`}).join("")}
+        ${SUBJECTS.map(s=>{const on=sel.includes(s.id);return `<button class="chip" data-id="${s.id}" aria-pressed="${on}" ${!on&&sel.length>=2?"disabled":""}><span class="ic" aria-hidden="true">${s.ic}</span>${subName(s.id)}</button>`}).join("")}
       </div>
       <div class="counter">${t("selected")(sel.length)}</div>
-      <p class="hint">${sel.length?(isSchoolSubjectSelection(sel)?t("nextClass"):t("nextLevel")):(lang()==="te"?"ఒకే విభాగం నుంచి గరిష్టంగా 2 అంశాలు ఎంచుకోండి.":"Choose up to 2 topics from the same group.")}</p>
-      <button class="btn" id="next" ${sel.length?"":"disabled"}>${sel.length?(isSchoolSubjectSelection(sel)?t("nextClass"):t("nextLevel")):(catOf(u)==="school"?t("nextClass"):t("nextLevel"))}</button>`;
+      <button class="btn" id="next" ${sel.length?"":"disabled"}>${catOf(u)==="school"?t("nextClass"):t("nextLevel")}</button>`;
     $app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
       const id=b.dataset.id; sel=sel.includes(id)?sel.filter(x=>x!==id):[...sel,id]; draw();
       $app.querySelector(`[data-id="${id}"]`)?.focus();
@@ -3330,7 +3226,7 @@ function vFav(){
 }
 
 function vClass(){
-  if(!isSchoolSubjectSelection(me()?.favs||[])) return vLevel();
+  if(catOf(me())!=="school") return vLevel();
   let c=route.c||me().cls||null;
   const draw=()=>{
     const u=me();
@@ -4147,333 +4043,144 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 }
 </style>
 
-<style id="welcome-layout-preserve-app-data">
-/* Welcome screen layout only: preserve the quiz data and existing app behavior. */
+<style id="instagram-inspired-compact-landing">
+/* Clean, compact welcome screen inspired by Instagram's focused sign-in layout. */
 .auth-welcome {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 560px !important;
-  min-height: 100dvh !important;
-  min-height: 100svh !important;
-  padding: max(12px, env(safe-area-inset-top, 0px)) 16px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
-  margin: 0 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: hidden !important;
+  min-height: 100svh !important; min-height: 100dvh !important;
+  box-sizing: border-box !important; padding: 10px 18px 58px !important;
+  justify-content: flex-start !important; gap: 0 !important;
 }
-.auth-welcome .landing-square {
-  width: clamp(88px, 18vh, 132px) !important;
-  max-width: 38vw !important;
-  aspect-ratio: 1 / 1 !important;
-  height: auto !important;
-  object-fit: cover !important;
-  margin: 0 auto 10px !important;
-  border-radius: 22px !important;
-}
+.auth-welcome .landing-square { width: min(190px, 49vw) !important; max-width: min(190px, 49vw) !important; margin: 2px auto 8px !important; }
 .auth-welcome .tagline-display {
-  margin: 0 auto 4px !important;
-  font-size: clamp(1.15rem, 4.6vw, 1.55rem) !important;
-  line-height: 1.2 !important;
-  text-align: center !important;
+  margin: 0 auto 8px !important; padding: 0 !important;
+  font-size: clamp(1.18rem, 4.8vw, 1.55rem) !important;
+  line-height: 1.2 !important; letter-spacing: 0 !important;
 }
-.auth-welcome .landing-subtitle {
-  margin: 0 auto 18px !important;
-  color: var(--muted) !important;
-  font-size: clamp(.82rem, 3.4vw, .98rem) !important;
-  font-weight: 500 !important;
-  line-height: 1.35 !important;
-  text-align: center !important;
-}
+.auth-welcome .landing-subtitle { margin: 0 auto 14px !important; }
 .auth-welcome .auth-actions {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  width: min(100%, 320px) !important;
-  max-width: 320px !important;
-  gap: 0 !important;
-  margin: 0 auto !important;
+  width: min(100%, 330px) !important; max-width: 330px !important;
+  margin: 8px auto 0 !important; gap: 9px !important;
 }
-.auth-welcome .auth-action {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  min-height: 50px !important;
-  margin: 0 !important;
-  padding: 10px 16px !important;
-  border-radius: 14px !important;
-  font-size: .98rem !important;
+.auth-welcome .auth-action { min-height: 48px !important; padding: 9px 14px !important; border-radius: 10px !important; }
+.auth-welcome .auth-action-icon, .auth-welcome .auth-action-icon svg { width: 22px !important; height: 22px !important; flex-basis: 22px !important; font-size: 1.05rem !important; }
+.auth-welcome .landing-credit {
+  display: block !important; width: 100% !important; margin: 12px auto 0 !important;
+  text-align: center !important; font-size: .78rem !important;
+  color: var(--muted) !important; letter-spacing: .02em !important;
 }
-.auth-welcome .auth-action.primary { order: 1 !important; }
-.auth-welcome .landing-forgot {
-  order: 2 !important;
-  align-self: center !important;
-  margin: 5px auto 0 !important;
-  padding: 4px 10px !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: var(--accent, #6c63ff) !important;
-  font: inherit !important;
-  font-size: .82rem !important;
-  font-weight: 600 !important;
-  text-decoration: underline !important;
-  cursor: pointer !important;
+/* The landing screen has no Back button; Back remains available on login/signup forms. */
+.auth-welcome .auth-home-back { display: none !important; }
+.auth-welcome .auth-bottom-options {
+  position: fixed !important; left: 8px !important; right: 8px !important;
+  bottom: calc(7px + env(safe-area-inset-bottom, 0px)) !important;
+  display: flex !important; justify-content: space-between !important;
+  align-items: center !important; gap: 8px !important;
+  padding: 0 !important; margin: 0 !important; z-index: 1000 !important;
 }
-.auth-welcome .landing-create {
-  order: 3 !important;
-  margin-top: 22px !important;
+.auth-welcome .auth-bottom-options .auth-option {
+  flex: 0 1 auto !important; min-width: 0 !important; width: auto !important;
+  height: 34px !important; min-height: 34px !important; padding: 5px 8px !important;
+  border-radius: 9px !important; font-size: .74rem !important; gap: 5px !important;
 }
-.auth-welcome .landing-footer {
-  box-sizing: border-box !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
-  width: 100% !important;
-  margin: auto 0 0 !important;
-  padding-top: 14px !important;
-}
-.auth-welcome .provided-by {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  min-width: 0 !important;
-  color: var(--muted) !important;
-  font-size: .72rem !important;
-  line-height: 1.1 !important;
-  white-space: nowrap !important;
-}
-.auth-welcome .provided-by img {
-  display: block !important;
-  width: 24px !important;
-  height: 24px !important;
-  object-fit: cover !important;
-  border-radius: 7px !important;
-}
-.auth-welcome .landing-footer .auth-bottom-options {
-  position: static !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 5px !important;
-  width: auto !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-.auth-welcome .landing-footer .auth-option {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 4px !important;
-  width: auto !important;
-  min-width: 0 !important;
-  min-height: 30px !important;
-  height: 30px !important;
-  padding: 4px 7px !important;
-  border-radius: 9px !important;
-  font-size: .68rem !important;
-  line-height: 1 !important;
-  white-space: nowrap !important;
-}
-.auth-welcome .landing-footer .auth-option-icon { font-size: .8rem !important; }
-.auth-welcome .landing-footer .auth-option-change { display: none !important; }
-.auth-welcome .landing-footer .auth-switch { display: none !important; }
-@media (max-height: 700px) {
-  .auth-welcome { justify-content: flex-start !important; }
-  .auth-welcome .landing-square { width: clamp(72px, 15vh, 100px) !important; margin-bottom: 7px !important; }
-  .auth-welcome .landing-subtitle { margin-bottom: 12px !important; }
+.auth-welcome .auth-bottom-options .auth-option-change,
+.auth-welcome .auth-bottom-options .auth-switch { display: none !important; }
+@media (max-height: 740px) {
+  .auth-welcome { padding-top: 6px !important; }
+  .auth-welcome .tagline-display { margin-bottom: 6px !important; }
+  .auth-welcome .auth-actions { margin-top: 5px !important; gap: 7px !important; }
   .auth-welcome .auth-action { min-height: 44px !important; }
-  .auth-welcome .landing-create { margin-top: 14px !important; }
-  .auth-welcome .landing-footer { padding-top: 8px !important; }
+  .auth-welcome .landing-credit { margin-top: 8px !important; }
 }
 @media (max-width: 360px) {
-  .auth-welcome { padding-left: 10px !important; padding-right: 10px !important; }
-  .auth-welcome .provided-by { font-size: .65rem !important; gap: 4px !important; }
-  .auth-welcome .provided-by img { width: 21px !important; height: 21px !important; }
-  .auth-welcome .landing-footer .auth-option { padding: 4px 5px !important; font-size: .64rem !important; }
-}
-/* Final welcome-page spacing refinement: preserve existing content and images. */
-.auth-welcome .landing-create {
-  margin-top: 8px !important;
-}
-.auth-welcome .landing-footer {
-  padding-top: 8px !important;
-}
-@media (max-height: 760px) {
-  .auth-welcome { padding-top: 8px !important; }
-  .auth-welcome .landing-square { margin-bottom: 7px !important; }
-  .auth-welcome .landing-subtitle { margin-bottom: 10px !important; }
-  .auth-welcome .landing-create { margin-top: 7px !important; }
-  .auth-welcome .landing-footer { padding-top: 6px !important; }
+  .auth-welcome { padding-left: 12px !important; padding-right: 12px !important; }
+  .auth-welcome .auth-bottom-options .auth-option { padding: 4px 6px !important; font-size: .69rem !important; }
 }
 
-
-/* Welcome footer alignment: Dark on the left, Provided by Jay exactly centered, Language on the right. */
-.auth-welcome .landing-footer {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
-  align-items: center !important;
-  justify-content: initial !important;
-  column-gap: 6px !important;
-  width: 100% !important;
-}
-.auth-welcome .landing-footer .auth-bottom-options {
-  display: contents !important;
-}
-.auth-welcome .landing-footer .auth-mode-option {
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-  justify-self: start !important;
-}
-.auth-welcome .landing-footer .provided-by {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
-  justify-self: center !important;
-  text-align: center !important;
-}
-.auth-welcome .landing-footer #authLangToggle {
-  grid-column: 3 !important;
-  grid-row: 1 !important;
-  justify-self: end !important;
-}
-@media (max-width: 360px) {
-  .auth-welcome .landing-footer { column-gap: 3px !important; }
-  .auth-welcome .landing-footer .provided-by { font-size: .61rem !important; gap: 3px !important; }
-  .auth-welcome .landing-footer .provided-by img { width: 19px !important; height: 19px !important; }
-  .auth-welcome .landing-footer .auth-option { padding: 4px !important; font-size: .62rem !important; }
-}
-/* Compact welcome screen: keep every control visible without scrolling. */
+/* Landing page spacing + login-card style frame */
 .auth-welcome {
-  min-height: 100vh !important;
-  min-height: 100svh !important;
-  height: 100svh !important;
-  padding-top: max(4px, env(safe-area-inset-top, 0px)) !important;
-  padding-bottom: max(4px, env(safe-area-inset-bottom, 0px)) !important;
+  box-sizing: border-box !important;
+  width: min(100% - 28px, 430px) !important;
+  min-height: calc(100dvh - 16px) !important;
+  padding: 12px 18px 54px !important;
   justify-content: flex-start !important;
-  overflow: hidden !important;
-}
-.auth-welcome .landing-square {
-  width: clamp(58px, 11vh, 82px) !important;
-  max-width: 26vw !important;
-  margin-bottom: 4px !important;
-  border-radius: 16px !important;
 }
 .auth-welcome .tagline-display {
-  font-size: clamp(1rem, 4vw, 1.3rem) !important;
-  line-height: 1.12 !important;
-  margin-bottom: 3px !important;
-}
-.auth-welcome .landing-subtitle {
-  font-size: clamp(.72rem, 3vw, .88rem) !important;
-  line-height: 1.2 !important;
-  margin-bottom: 8px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  margin: 12px auto 18px !important;
+  padding: 14px 12px !important;
+  border: 1.5px solid var(--line, #d7dbea) !important;
+  border-radius: 14px !important;
+  background: var(--sheet, rgba(255,255,255,.06)) !important;
+  box-shadow: 0 3px 12px rgba(30,45,90,.07) !important;
+  text-align: center !important;
+  line-height: 1.35 !important;
 }
 .auth-welcome .auth-actions {
-  width: min(100%, 290px) !important;
-  max-width: 290px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 14px !important;
+  gap: 12px !important;
+  border: 1.5px solid var(--line, #d7dbea) !important;
+  border-radius: 16px !important;
+  background: var(--paper, rgba(255,255,255,.04)) !important;
+  box-shadow: 0 5px 18px rgba(30,45,90,.08) !important;
 }
 .auth-welcome .auth-action {
-  min-height: 40px !important;
-  padding: 7px 12px !important;
+  min-height: 50px !important;
   border-radius: 11px !important;
-  font-size: .9rem !important;
+  box-shadow: 0 2px 7px rgba(30,45,90,.10) !important;
 }
-.auth-welcome .landing-forgot {
-  margin-top: 1px !important;
-  padding: 2px 8px !important;
-  font-size: .76rem !important;
-  line-height: 1.15 !important;
-}
-.auth-welcome .landing-create {
-  margin-top: 3px !important;
-}
-.auth-welcome .landing-footer {
-  flex: 0 0 auto !important;
-  margin-top: auto !important;
-  padding-top: 3px !important;
-  padding-bottom: 0 !important;
-}
-.auth-welcome .provided-by { font-size: .64rem !important; }
-.auth-welcome .provided-by img { width: 19px !important; height: 19px !important; }
-.auth-welcome .landing-footer .auth-option {
-  min-height: 26px !important;
-  height: 26px !important;
-  padding: 3px 5px !important;
-  font-size: .62rem !important;
-}
-@media (max-height: 650px) {
-  .auth-welcome .landing-square { width: 52px !important; margin-bottom: 3px !important; }
-  .auth-welcome .landing-subtitle { margin-bottom: 5px !important; }
-  .auth-welcome .auth-action { min-height: 36px !important; padding-top: 5px !important; padding-bottom: 5px !important; }
-  .auth-welcome .landing-create { margin-top: 1px !important; }
-  .auth-welcome .landing-footer .auth-option { min-height: 23px !important; height: 23px !important; }
+.auth-welcome .landing-credit { margin-top: 12px !important; }
+@media (max-height: 740px) {
+  .auth-welcome { padding-top: 6px !important; }
+  .auth-welcome .tagline-display { margin-top: 7px !important; margin-bottom: 12px !important; padding: 10px !important; }
+  .auth-welcome .auth-actions { padding: 10px !important; gap: 8px !important; }
+  .auth-welcome .auth-action { min-height: 44px !important; }
 }
 </style>
 
 
-<style id="welcome-fit-with-original-main-picture">
-/* Keep the main girl picture at its original welcome-page size. Save space in gaps instead. */
-.auth-welcome {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  height: 100svh !important;
-  min-height: 100svh !important;
-  padding-top: max(4px, env(safe-area-inset-top, 0px)) !important;
-  padding-bottom: max(4px, env(safe-area-inset-bottom, 0px)) !important;
-  justify-content: flex-start !important;
-  overflow: hidden !important;
-  gap: 0 !important;
+<style id="welcome-main-page-only-refinement">
+/* These refinements intentionally apply only to the welcome/choose screen. */
+.auth-welcome .welcome-entry-card {
+  box-sizing: border-box;
+  width: min(100%, 460px);
+  margin: 4px auto 0;
+  padding: 18px 16px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper);
+  box-shadow: 0 8px 24px rgba(30, 45, 90, .09);
 }
-.auth-welcome .landing-square {
-  width: min(230px, 60vw) !important;
-  max-width: 60vw !important;
-  height: auto !important;
-  aspect-ratio: 1 / 1 !important;
-  object-fit: cover !important;
-  margin: 0 auto 5px !important;
-  border-radius: 22px !important;
+.auth-welcome .welcome-entry-card .tagline-display {
+  margin: 0 auto 8px;
+  padding: 0;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  line-height: 1.2;
 }
-.auth-welcome .tagline-display {
-  margin: 0 auto 2px !important;
-  line-height: 1.12 !important;
+.auth-welcome .welcome-entry-card .landing-subtitle {
+  margin: 0 auto 18px;
+  font-size: .98rem;
+  line-height: 1.4;
+  font-weight: 600;
 }
-.auth-welcome .landing-subtitle {
-  margin: 0 auto 7px !important;
-  line-height: 1.2 !important;
+.auth-welcome .welcome-entry-card .auth-actions {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  gap: 10px;
 }
-.auth-welcome .auth-actions {
-  margin: 0 auto !important;
-  gap: 0 !important;
+.auth-welcome .welcome-entry-card .auth-action {
+  min-height: 52px;
+  border-radius: 13px;
 }
-.auth-welcome .auth-action {
-  min-height: 39px !important;
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-}
-.auth-welcome .landing-forgot {
-  margin-top: 0 !important;
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
-  line-height: 1.15 !important;
-}
-.auth-welcome .landing-create { margin-top: 4px !important; }
-.auth-welcome .landing-footer {
-  flex: 0 0 auto !important;
-  margin-top: auto !important;
-  padding-top: 3px !important;
-  padding-bottom: 0 !important;
-}
-/* Short screens: reduce whitespace, never shrink the main picture. */
-@media (max-height: 700px) {
-  .auth-welcome { padding-top: max(2px, env(safe-area-inset-top, 0px)) !important; }
-  .auth-welcome .landing-square { width: min(230px, 60vw) !important; margin-bottom: 3px !important; }
-  .auth-welcome .landing-subtitle { margin-bottom: 4px !important; }
-  .auth-welcome .auth-action { min-height: 36px !important; padding-top: 4px !important; padding-bottom: 4px !important; }
-  .auth-welcome .landing-create { margin-top: 2px !important; }
-  .auth-welcome .landing-footer { padding-top: 2px !important; }
+@media (max-width: 380px) {
+  .auth-welcome .welcome-entry-card { padding: 15px 12px 13px; border-radius: 18px; }
+  .auth-welcome .welcome-entry-card .landing-subtitle { margin-bottom: 14px; font-size: .9rem; }
+  .auth-welcome .welcome-entry-card .auth-actions { gap: 8px; }
 }
 </style>
 
