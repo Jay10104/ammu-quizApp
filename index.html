@@ -2989,6 +2989,7 @@ function vLogin(){
           <p class="landing-subtitle">Your learning journey starts here</p>
           <div class="auth-actions">
             <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
+            <button class="link center welcome-forgot-link" type="button" id="chooseForgot">${t("forgot")}</button>
             <button class="btn auth-action secondary" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="4"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0M19 8v8M15 12h8"/></svg></span><span>${t("create")}</span></button>
           </div>
         </div>
@@ -2998,6 +2999,7 @@ function vLogin(){
       </section>`;
     wireAuthControls();
     document.getElementById("chooseLogin").onclick=()=>go("login",{mode:"in"});
+    document.getElementById("chooseForgot").onclick=()=>go("forgot",{step:1});
     document.getElementById("chooseCreate").onclick=()=>go("login",{mode:"up"});
     document.getElementById("landingBack").onclick=()=>{ if(typeof goBack==="function") goBack(); else go("home"); };
     return;
@@ -4181,6 +4183,35 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   .auth-welcome .welcome-entry-card { padding: 15px 12px 13px; border-radius: 18px; }
   .auth-welcome .welcome-entry-card .landing-subtitle { margin-bottom: 14px; font-size: .9rem; }
   .auth-welcome .welcome-entry-card .auth-actions { gap: 8px; }
+}
+/* Forgot password appears directly after Login on the welcome page only. */
+.auth-welcome .welcome-forgot-link {
+  display: block;
+  align-self: center;
+  margin: -3px auto 0;
+  padding: 3px 8px;
+  font-size: .88rem;
+  line-height: 1.25;
+}
+/* Keep the credit centered between the fixed Dark/Light and language controls. */
+.auth-welcome .landing-credit {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: calc(7px + env(safe-area-inset-bottom, 0px)) !important;
+  transform: translateX(-50%) !important;
+  width: max-content !important;
+  max-width: 34vw !important;
+  margin: 0 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  font-size: .72rem !important;
+  line-height: 34px !important;
+  z-index: 1001 !important;
+  pointer-events: none !important;
+}
+@media (max-width: 360px) {
+  .auth-welcome .landing-credit { font-size: .64rem !important; max-width: 32vw !important; }
+  .auth-welcome .welcome-forgot-link { font-size: .82rem; }
 }
 </style>
 
