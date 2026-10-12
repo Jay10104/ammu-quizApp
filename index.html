@@ -3754,5 +3754,71 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 }
 </style>
 
+
+<style id="landing-auth-button-alignment-fix">
+/* Match the landing-page action buttons to the compact login-page alignment. */
+.auth-welcome .auth-actions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: stretch;
+  width: 100%;
+  max-width: 490px;
+  gap: 8px !important;
+  margin: 8px auto 0 !important;
+}
+.auth-welcome .auth-action {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+  margin: 0 !important;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 7px !important;
+  line-height: 1.15;
+}
+.auth-welcome .auth-action-icon { margin: 0; flex: 0 0 auto; }
+@media (max-height: 700px) {
+  .auth-welcome .auth-actions { gap: 7px !important; margin-top: 5px !important; }
+  .auth-welcome .auth-action { min-height: 49px; padding: 6px 4px; }
+}
+</style>
+
+
+<style id="consistent-small-back-buttons">
+/* Use one compact, consistent Back-button treatment across the app. */
+.backbar:not([hidden]),
+.auth-home-back,
+.auth-back {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 30px !important;
+  height: auto;
+  padding: 4px 10px !important;
+  border-radius: 16px !important;
+  font-size: .76rem !important;
+  line-height: 1.15;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+.backbar:not([hidden]) {
+  position: fixed;
+  left: 10px;
+  bottom: calc(var(--tq-bottom-nav) + 8px + env(safe-area-inset-bottom,0px));
+  z-index: 45;
+  margin: 0;
+}
+.backbar svg { width: 14px; height: 14px; flex: 0 0 14px; }
+.auth-home-back, .auth-back { margin: 5px auto 8px !important; }
+@media (min-width:700px) { .backbar:not([hidden]) { bottom: 100px; } }
+</style>
+
 </body>
 </html>
