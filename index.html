@@ -447,6 +447,16 @@ header.bar .bandin{padding:8px 16px}
 .theme-panel .theme-picker{margin:8px 0 18px}
 @media(max-width:420px){.theme-panel{padding:16px}.theme-panel .theme-grid{grid-template-columns:1fr}}
 
+
+/* Bottom appearance and language controls for landing, login, and create-account screens only */
+.auth-bottom-options{width:min(100%,490px);display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:24px auto 4px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));margin-top:auto}
+.auth-option{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:9px 10px;border:1px solid var(--line);border-radius:15px;background:var(--sheet);color:var(--ink);font:inherit;font-size:.92rem;font-weight:700;box-shadow:0 3px 12px rgba(20,35,65,.08)}
+.auth-option-icon{font-size:1.1rem}.auth-option-change{font-size:.76rem;color:var(--accent);font-weight:800}
+.auth-switch{width:36px;height:20px;flex:none;display:inline-flex;align-items:center;padding:2px;border-radius:99px;background:var(--line)}
+.auth-switch i{display:block;width:16px;height:16px;border-radius:50%;background:var(--accent);transition:transform .18s}
+.auth-welcome .auth-bottom-options{margin-top:auto}
+@media(max-width:380px){.auth-bottom-options{gap:7px}.auth-option{font-size:.82rem;padding:8px 5px;gap:5px}}
+
 </style>
 </head>
 <body>
@@ -2256,7 +2266,7 @@ const T = {
   back:"‹ నా ఫలితాలకు తిరిగి వెళ్ళండి", qa:"ప్రశ్నలు మరియు జవాబులు", sec:"సె", min:"ని", locale:"te-IN", langBtn:"Change language to English"
  }
 };
-const lang = ()=> S.lang==="te" ? "te" : "en";
+const lang = ()=> (typeof route!=="undefined" && route && route.name==="login") ? (S.authLang==="te" ? "te" : "en") : (S.lang==="te" ? "te" : "en");
 const t = k => T[lang()][k];
 const L = x => x==null ? "" : typeof x==="string" ? x : (x[lang()] ?? x.en);
 
@@ -2310,6 +2320,8 @@ function updateBar(){
   document.getElementById("navHome").hidden=!u||adm;
   document.getElementById("navHist").hidden=!u||adm;
   document.getElementById("nav").classList.toggle("guest", !u);
+  document.getElementById("nav").hidden = !!(route && route.name === "login");
+  document.getElementById("langBtn").hidden = true;
   document.getElementById("brandName").textContent = t("app");
   const lab=(id,k)=>document.querySelector(`#${id} .nl`).textContent=t(k);
   lab("navHome","home"); lab("navHist","myResults"); lab("avBtn","profileTab"); lab("navAdmin","adminTab");
@@ -2931,21 +2943,55 @@ const maskEmail = e=>{ if(!e) return ""; const [a,d]=e.split("@"); return a.char
 const maskPhone = p=>{ const d=digits(p); return d ? "•".repeat(Math.max(0,d.length-4))+d.slice(-4) : ""; };
 const field = (id,label,attrs="",val="")=>`<label class="f" for="${id}">${label}</label><input class="inp" id="${id}" ${attrs} value="${esc(val)}">`;
 
+function authControlsMarkup(){
+  const te = lang()==="te";
+  return `<div class="auth-bottom-options" aria-label="Page options">
+    <button type="button" class="auth-option" id="authModeToggle" aria-label="${te?"లైట్ లేదా డార్క్ మోడ్ మార్చండి":"Toggle dark or light mode"}">
+      <span class="auth-option-icon" aria-hidden="true">${curAppearance()==="dark"?"🌙":"☀️"}</span>
+      <span>${curAppearance()==="dark"?(te?"డార్క్":"Dark"):(te?"లైట్":"Light")}</span>
+      <span class="auth-switch" aria-hidden="true"><i style="transform:translateX(${curAppearance()==="dark"?"18px":"0"})"></i></span>
+    </button>
+    <button type="button" class="auth-option" id="authLangToggle" aria-label="${te?"భాషను English కు మార్చండి":"Change language to Telugu"}">
+      <span class="auth-option-icon" aria-hidden="true">🌐</span>
+      <span>${te?"తెలుగు":"English"}</span><span class="auth-option-change">${te?"EN":"తెలుగు"}</span>
+    </button>
+  </div>`;
+}
+function rerenderAuthPreservingForm(){
+  const snapshot={};
+  document.querySelectorAll("#app input, #app select, #app textarea").forEach((el,i)=>{
+    const key=el.id||`field-${i}`;
+    snapshot[key]={value:el.value,checked:!!el.checked};
+  });
+  render();
+  document.querySelectorAll("#app input, #app select, #app textarea").forEach((el,i)=>{
+    const saved=snapshot[el.id||`field-${i}`];
+    if(!saved) return;
+    if(el.type==="checkbox"||el.type==="radio") el.checked=saved.checked;
+    else el.value=saved.value;
+  });
+}
+function wireAuthControls(){
+  const modeBtn=document.getElementById("authModeToggle");
+  if(modeBtn) modeBtn.onclick=()=>{ S.appearance=curAppearance()==="dark"?"light":"dark"; save(); applyTheme(); rerenderAuthPreservingForm(); };
+  const langBtn=document.getElementById("authLangToggle");
+  if(langBtn) langBtn.onclick=()=>{ S.authLang=lang()==="te"?"en":"te"; save(); rerenderAuthPreservingForm(); };
+}
+
 function vLogin(){
   const mode = route.mode||"choose";
   if(mode==="choose"){
     $app.innerHTML = `
       <section class="auth-welcome">
-        <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
-        <h1 class="auth-title">${t("app")}</h1>
-        <p class="landing-subtitle">— Quiz —</p>
-        <div class="login-tagline"><p class="lead">${t("loginLead")}</p></div>
+        <p class="tagline-display">${t("loginLead")}</p>
         <div class="auth-actions">
           <button class="btn auth-action primary" type="button" id="chooseLogin">♙ &nbsp; ${t("login")} &nbsp; →</button>
           <button class="btn auth-action secondary" type="button" id="chooseCreate">⊕ &nbsp; ${t("create")} &nbsp; →</button>
         </div>
         <button class="btn auth-home-back" type="button" id="landingBack">← ${t("backBtn")}</button>
+        ${authControlsMarkup()}
       </section>`;
+    wireAuthControls();
     document.getElementById("chooseLogin").onclick=()=>go("login",{mode:"in"});
     document.getElementById("chooseCreate").onclick=()=>go("login",{mode:"up"});
     document.getElementById("landingBack").onclick=()=>{ if(typeof goBack==="function") goBack(); else go("home"); };
@@ -2991,7 +3037,9 @@ function vLogin(){
         ${mode==="in"?`<button type="button" class="link center" id="forgot" style="margin-top:12px">${t("forgot")}</button>`:""}
       </form>
       <p class="hint">${t("loginHint")}</p>
-    </div>`;
+    </div>
+    ${authControlsMarkup()}`;
+  wireAuthControls();
   const authBack=document.getElementById("authBack"); if(authBack) authBack.onclick=()=>go("login");
   $app.querySelectorAll(".role[data-role]").forEach(b=>b.onclick=()=>{route.role=b.dataset.role;$app.querySelectorAll(".role[data-role]").forEach(x=>x.setAttribute("aria-checked",x===b));const cb=document.getElementById("catBlock");if(cb)cb.hidden=route.role==="admin";});
   $app.querySelectorAll(".role.cat").forEach(b=>b.onclick=()=>{route.cat=b.dataset.cat;$app.querySelectorAll(".role.cat").forEach(x=>x.setAttribute("aria-checked",x===b))});
@@ -3527,5 +3575,32 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 #f > .signup-step { width: 100%; }
 </style>
 
+<style id="landing-tagline-text-only">
+/* Landing slogan: expressive text, no card or background box. */
+.auth-welcome .tagline-display {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  margin: auto auto 32px;
+  padding-top: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+  font-size: clamp(1.45rem, 5.8vw, 2.15rem);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: .025em;
+  text-align: center;
+  text-wrap: balance;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .auth-welcome .tagline-display { animation: taglineFadeIn .55s ease-out both; }
+  @keyframes taglineFadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+}
+</style>
 </body>
 </html>
