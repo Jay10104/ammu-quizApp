@@ -436,6 +436,17 @@ header.bar .bandin{padding:8px 16px}
 .tour .tbtns{display:flex;align-items:center;gap:8px}
 .tour .tbtns .btn{width:auto;min-height:40px;padding:8px 14px;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){.tour .thole{animation:none}}
+
+/* Dedicated theme panel: opens in place and never navigates away from the current page. */
+.theme-panel-backdrop{position:fixed;inset:0;z-index:10000;background:rgba(8,16,32,.58);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.theme-panel{width:min(100%,560px);max-height:min(90dvh,780px);overflow:auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+.theme-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.theme-panel-head h2{margin:0;font-size:1.35rem}
+.theme-panel-close{width:42px;height:42px;flex:none;border:1px solid var(--line);border-radius:12px;background:var(--sheet);color:var(--ink);font-size:1.35rem}
+.theme-panel .theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.theme-panel .theme-picker{margin:8px 0 18px}
+@media(max-width:420px){.theme-panel{padding:16px}.theme-panel .theme-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -2349,7 +2360,55 @@ function applyTheme(){
   const ic=document.getElementById("themeIc"), nl=document.getElementById("themeNl"), b=document.getElementById("themeBtn");
   if(nl) nl.textContent = "Theme"; if(b) b.setAttribute("aria-label", "Theme");
 }
-document.getElementById("themeBtn").onclick=async()=>{ if(route.name==="quiz" && !(await ask(t("leave"),{ok:t("leaveOk")}))) return; go("profile"); setTimeout(()=>{ const h=[...document.querySelectorAll(".sec")].find(x=>/appearance|theme/i.test(x.textContent)); if(h) h.scrollIntoView({behavior:"smooth",block:"start"}); },80); };
+document.getElementById("themeBtn").onclick=()=>openThemePanel();
+function themePanelMarkup(){
+  return `
+    <div class="theme-panel-backdrop" id="themePanelBackdrop" role="presentation">
+      <section class="theme-panel" role="dialog" aria-modal="true" aria-labelledby="themePanelTitle">
+        <div class="theme-panel-head">
+          <h2 id="themePanelTitle">🎨 Theme settings</h2>
+          <button class="theme-panel-close" id="closeThemePanel" aria-label="Close theme settings">×</button>
+        </div>
+        <p class="lead">Choose your app appearance and theme colour. Your current page will stay open.</p>
+        <h3 class="sec">Appearance</h3>
+        <section class="theme-picker" aria-label="Appearance mode">
+          <div class="theme-grid">
+            <button class="theme-choice" data-appearance-choice="light" aria-pressed="${curAppearance()==="light"}"><span class="theme-swatch" style="background:#F5F7FB"><i style="background:#FFFFFF"></i><i style="background:#111C33"></i></span><span><strong>☀️ Light</strong><small>Light background, dark text</small></span><span class="check">${curAppearance()==="light"?"✓":""}</span></button>
+            <button class="theme-choice" data-appearance-choice="dark" aria-pressed="${curAppearance()==="dark"}"><span class="theme-swatch" style="background:#111A2C"><i style="background:#18233A"></i><i style="background:#E8EDF7"></i></span><span><strong>🌙 Dark</strong><small>Dark background, light text</small></span><span class="check">${curAppearance()==="dark"?"✓":""}</span></button>
+          </div>
+        </section>
+        <h3 class="sec">Theme colour</h3>
+        <section class="theme-picker" aria-label="Theme colour choices">
+          <div class="theme-grid">
+            <button class="theme-choice" data-theme-choice="ocean" aria-pressed="${curTheme()==="ocean"}"><span class="theme-swatch" style="background:#EAF6FA"><i style="background:#087E9B"></i><i style="background:#55CBE0"></i><i style="background:#FFCB77"></i></span><span><strong>🌊 Ocean</strong><small>Blue & teal</small></span><span class="check">${curTheme()==="ocean"?"✓":""}</span></button>
+            <button class="theme-choice" data-theme-choice="forest" aria-pressed="${curTheme()==="forest"}"><span class="theme-swatch" style="background:#F0F7F0"><i style="background:#287447"></i><i style="background:#69D391"></i><i style="background:#E8C96D"></i></span><span><strong>🌿 Forest</strong><small>Fresh greens</small></span><span class="check">${curTheme()==="forest"?"✓":""}</span></button>
+            <button class="theme-choice" data-theme-choice="sunset" aria-pressed="${curTheme()==="sunset"}"><span class="theme-swatch" style="background:#FFF4EE"><i style="background:#C65345"></i><i style="background:#FF9A7E"></i><i style="background:#F6BE62"></i></span><span><strong>🌅 Sunset</strong><small>Warm coral</small></span><span class="check">${curTheme()==="sunset"?"✓":""}</span></button>
+            <button class="theme-choice" data-theme-choice="lavender" aria-pressed="${curTheme()==="lavender"}"><span class="theme-swatch" style="background:#F5F1FC"><i style="background:#7552B8"></i><i style="background:#C4A5FF"></i><i style="background:#F4C9E8"></i></span><span><strong>💜 Lavender</strong><small>Soft purple</small></span><span class="check">${curTheme()==="lavender"?"✓":""}</span></button>
+          </div>
+        </section>
+      </section>
+    </div>`;
+}
+function openThemePanel(){
+  document.getElementById("themePanelMount")?.remove();
+  const mount=document.createElement("div");
+  mount.id="themePanelMount";
+  mount.innerHTML=themePanelMarkup();
+  document.body.appendChild(mount);
+  const close=()=>mount.remove();
+  document.getElementById("closeThemePanel").onclick=close;
+  document.getElementById("themePanelBackdrop").addEventListener("click",e=>{if(e.target.id==="themePanelBackdrop")close();});
+  document.addEventListener("keydown",function escTheme(e){if(e.key==="Escape"){close();document.removeEventListener("keydown",escTheme);}});
+  document.querySelectorAll("#themePanelMount [data-appearance-choice]").forEach(btn=>btn.onclick=()=>{
+    S.appearance=btn.dataset.appearanceChoice;save();applyTheme();refreshThemeChoices();
+    toast(S.appearance==="dark"?t("okDark"):t("okLight"));
+  });
+  document.querySelectorAll("#themePanelMount [data-theme-choice]").forEach(btn=>btn.onclick=()=>{
+    S.theme=btn.dataset.themeChoice;save();applyTheme();refreshThemeChoices();
+    toast("Theme colour applied across the app");
+  });
+}
+
 function refreshThemeChoices(){
   document.querySelectorAll("[data-theme-choice]").forEach(btn=>{
     const selected=btn.dataset.themeChoice===curTheme();
@@ -2448,24 +2507,6 @@ function vProfile(){
       <h1>${esc(u.name)}</h1>
       <p class="lead">@${esc(un)}</p>
     </div>
-    <h3 class="sec">🎨 Theme</h3>
-    <p class="lead">Choose Light or Dark mode. This controls the app background and text contrast.</p>
-    <section class="theme-picker" aria-label="Appearance mode">
-      <div class="theme-grid">
-        <button class="theme-choice" data-appearance-choice="light" aria-pressed="${curAppearance()==="light"}"><span class="theme-swatch" style="background:#F5F7FB"><i style="background:#FFFFFF"></i><i style="background:#111C33"></i></span><span><strong>☀️ Light</strong><small>Light background, dark text</small></span><span class="check">${curAppearance()==="light"?"✓":""}</span></button>
-        <button class="theme-choice" data-appearance-choice="dark" aria-pressed="${curAppearance()==="dark"}"><span class="theme-swatch" style="background:#111A2C"><i style="background:#18233A"></i><i style="background:#E8EDF7"></i></span><span><strong>🌙 Dark</strong><small>Dark background, light text</small></span><span class="check">${curAppearance()==="dark"?"✓":""}</span></button>
-      </div>
-    </section>
-    <h3 class="sec">🎨 Choose theme colour</h3>
-    <p class="lead">Choose an accent colour. It changes buttons, highlights and selections—not Light/Dark mode.</p>
-    <section class="theme-picker" aria-label="Theme colour choices">
-      <div class="theme-grid">
-        <button class="theme-choice" data-theme-choice="ocean" aria-pressed="${curTheme()==="ocean"}"><span class="theme-swatch" style="background:#EAF6FA"><i style="background:#087E9B"></i><i style="background:#55CBE0"></i><i style="background:#FFCB77"></i></span><span><strong>🌊 Ocean</strong><small>Blue & teal</small></span><span class="check">${curTheme()==="ocean"?"✓":""}</span></button>
-        <button class="theme-choice" data-theme-choice="forest" aria-pressed="${curTheme()==="forest"}"><span class="theme-swatch" style="background:#F0F7F0"><i style="background:#287447"></i><i style="background:#69D391"></i><i style="background:#E8C96D"></i></span><span><strong>🌿 Forest</strong><small>Fresh greens</small></span><span class="check">${curTheme()==="forest"?"✓":""}</span></button>
-        <button class="theme-choice" data-theme-choice="sunset" aria-pressed="${curTheme()==="sunset"}"><span class="theme-swatch" style="background:#FFF4EE"><i style="background:#C65345"></i><i style="background:#FF9A7E"></i><i style="background:#F6BE62"></i></span><span><strong>🌅 Sunset</strong><small>Warm coral</small></span><span class="check">${curTheme()==="sunset"?"✓":""}</span></button>
-        <button class="theme-choice" data-theme-choice="lavender" aria-pressed="${curTheme()==="lavender"}"><span class="theme-swatch" style="background:#F5F1FC"><i style="background:#7552B8"></i><i style="background:#C4A5FF"></i><i style="background:#F4C9E8"></i></span><span><strong>💜 Lavender</strong><small>Soft purple</small></span><span class="check">${curTheme()==="lavender"?"✓":""}</span></button>
-      </div>
-    </section>
     <div class="err" id="perr" role="alert" style="text-align:center"></div>
     ${!u.email||!u.phone?`<div class="note">${t("addContact")}</div>`:""}
     ${!isAdmin()&&!u.state?`<div class="note">${t("addState")}</div>`:""}
@@ -2502,8 +2543,6 @@ function vProfile(){
     ${PH[un]?`<button class="link center" id="rmPh" style="margin-top:14px">${t("removePhoto")}</button>`:""}
     <button class="btn logout" id="pOut"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></svg> ${t("logout")}</button>`;
   wirePickers(d=>{const had=!!PH[un];PH[un]=d;savePhotos();vProfile();toast(had?t("okPhotoUpd"):t("okPhotoAdd"))});
-  document.querySelectorAll("[data-appearance-choice]").forEach(btn=>btn.onclick=()=>{S.appearance=btn.dataset.appearanceChoice;save();applyTheme();refreshThemeChoices();toast(S.appearance==="dark"?t("okDark"):t("okLight"));});
-  document.querySelectorAll("[data-theme-choice]").forEach(btn=>btn.onclick=()=>{S.theme=btn.dataset.themeChoice;save();applyTheme();refreshThemeChoices();toast("Theme colour applied across the app");});
   document.getElementById("pEdit").onclick=()=>go("edit");
   document.getElementById("pTour").onclick=()=>{ go(homeRoute(),{noTour:true}); setTimeout(startTour,350); };
   const pH=document.getElementById("pHist"); if(pH) pH.onclick=()=>go("history");
@@ -2916,9 +2955,8 @@ function vLogin(){
     <section class="auth-form-head">
       <div class="auth-icon-wrap auth-page-icon"><img class="auth-icon" src="${AMMU_IMG}" alt="Tejaswini Quiz icon"></div>
       <h1 class="auth-title">${mode==="up"?t("create"):t("login")}</h1>
-      <button class="link auth-back" type="button" id="authBack">← Back</button>
+      <button class="btn ghost auth-back" type="button" id="authBack">← Back</button>
     </section>
-    <div class="login-tagline compact"><p class="lead">${t("loginLead")}</p></div>
     <div class="sheet">
       <form id="f" novalidate>
         ${mode==="up"?`<div id="catBlock" ${route.role==="admin"?"hidden":""}>
@@ -3363,6 +3401,10 @@ header.bar .in{padding-top:8px;padding-bottom:8px}
 @keyframes tq-sparkle{from{transform:translateY(0);opacity:.65}to{transform:translateY(-3px);opacity:1}}
 @media(min-width:700px){#nav{bottom:12px;border:1px solid var(--line);border-radius:18px;padding-bottom:7px}body{padding-bottom:110px}.backbar:not([hidden]){bottom:100px}}
 @media(prefers-reduced-motion:reduce){.celebrate-result:after{animation:none}}
+  .auth-form-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .auth-form-head .auth-title{flex:1;min-width:150px}
+  .auth-back{width:auto;min-height:42px;padding:9px 16px;border-radius:10px;font-size:.92rem}
+  .auth-form-head .auth-page-icon{flex:0 0 auto}
 </style>
 <script>
 (function(){
