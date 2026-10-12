@@ -2985,17 +2985,21 @@ function vLogin(){
       <section class="auth-welcome">
         <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
         <p class="tagline-display">${t("loginLead")}</p>
+        <p class="landing-subtitle">Your learning journey starts here</p>
         <div class="auth-actions">
           <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
-          <button class="btn auth-action secondary" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="4"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0M19 8v8M15 12h8"/></svg></span><span>${t("create")}</span></button>
+          <button type="button" class="landing-forgot" id="landingForgot">${t("forgot")}</button>
+          <button class="btn auth-action secondary landing-create" type="button" id="chooseCreate"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="4"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0M19 8v8M15 12h8"/></svg></span><span>${t("create")}</span></button>
         </div>
-        <button class="btn auth-home-back" type="button" id="landingBack">${t("backBtn")}</button>
-        ${authControlsMarkup()}
+        <div class="landing-footer">
+          <div class="provided-by"><img src="${AMMU_IMG}" alt=""><span>Provided by Jay</span></div>
+          ${authControlsMarkup()}
+        </div>
       </section>`;
     wireAuthControls();
     document.getElementById("chooseLogin").onclick=()=>go("login",{mode:"in"});
     document.getElementById("chooseCreate").onclick=()=>go("login",{mode:"up"});
-    document.getElementById("landingBack").onclick=()=>{ if(typeof goBack==="function") goBack(); else go("home"); };
+    document.getElementById("landingForgot").onclick=()=>go("forgot",{step:1});
     return;
   }
   $app.innerHTML = `
@@ -4038,5 +4042,156 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   margin-bottom: 26px !important;
 }
 </style>
+
+<style id="welcome-layout-preserve-app-data">
+/* Welcome screen layout only: preserve the quiz data and existing app behavior. */
+.auth-welcome {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 560px !important;
+  min-height: 100dvh !important;
+  min-height: 100svh !important;
+  padding: max(12px, env(safe-area-inset-top, 0px)) 16px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+.auth-welcome .landing-square {
+  width: clamp(88px, 18vh, 132px) !important;
+  max-width: 38vw !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  margin: 0 auto 10px !important;
+  border-radius: 22px !important;
+}
+.auth-welcome .tagline-display {
+  margin: 0 auto 4px !important;
+  font-size: clamp(1.15rem, 4.6vw, 1.55rem) !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+.auth-welcome .landing-subtitle {
+  margin: 0 auto 18px !important;
+  color: var(--muted) !important;
+  font-size: clamp(.82rem, 3.4vw, .98rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+}
+.auth-welcome .auth-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: min(100%, 320px) !important;
+  max-width: 320px !important;
+  gap: 0 !important;
+  margin: 0 auto !important;
+}
+.auth-welcome .auth-action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  border-radius: 14px !important;
+  font-size: .98rem !important;
+}
+.auth-welcome .auth-action.primary { order: 1 !important; }
+.auth-welcome .landing-forgot {
+  order: 2 !important;
+  align-self: center !important;
+  margin: 5px auto 0 !important;
+  padding: 4px 10px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--accent, #6c63ff) !important;
+  font: inherit !important;
+  font-size: .82rem !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+}
+.auth-welcome .landing-create {
+  order: 3 !important;
+  margin-top: 22px !important;
+}
+.auth-welcome .landing-footer {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: auto 0 0 !important;
+  padding-top: 14px !important;
+}
+.auth-welcome .provided-by {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  color: var(--muted) !important;
+  font-size: .72rem !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+}
+.auth-welcome .provided-by img {
+  display: block !important;
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: cover !important;
+  border-radius: 7px !important;
+}
+.auth-welcome .landing-footer .auth-bottom-options {
+  position: static !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 5px !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.auth-welcome .landing-footer .auth-option {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 30px !important;
+  height: 30px !important;
+  padding: 4px 7px !important;
+  border-radius: 9px !important;
+  font-size: .68rem !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+.auth-welcome .landing-footer .auth-option-icon { font-size: .8rem !important; }
+.auth-welcome .landing-footer .auth-option-change { display: none !important; }
+.auth-welcome .landing-footer .auth-switch { display: none !important; }
+@media (max-height: 700px) {
+  .auth-welcome { justify-content: flex-start !important; }
+  .auth-welcome .landing-square { width: clamp(72px, 15vh, 100px) !important; margin-bottom: 7px !important; }
+  .auth-welcome .landing-subtitle { margin-bottom: 12px !important; }
+  .auth-welcome .auth-action { min-height: 44px !important; }
+  .auth-welcome .landing-create { margin-top: 14px !important; }
+  .auth-welcome .landing-footer { padding-top: 8px !important; }
+}
+@media (max-width: 360px) {
+  .auth-welcome { padding-left: 10px !important; padding-right: 10px !important; }
+  .auth-welcome .provided-by { font-size: .65rem !important; gap: 4px !important; }
+  .auth-welcome .provided-by img { width: 21px !important; height: 21px !important; }
+  .auth-welcome .landing-footer .auth-option { padding: 4px 5px !important; font-size: .64rem !important; }
+}
+</style>
+
 </body>
 </html>
