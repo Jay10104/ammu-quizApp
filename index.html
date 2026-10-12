@@ -2161,7 +2161,7 @@ const T = {
   login:"Log in", create:"Create account", yourName:"Your name", namePh:"e.g. Ammu",
   username:"Username", unPh:"e.g. ammu7", password:"Password", pwPh:"At least 4 characters",
   loginHint:"Accounts are saved for this app only. Each student can make their own account.",
-  errUser:"Username needs 3–20 letters or numbers, no spaces.", errPw:"Password needs at least 4 characters.",
+  errUser:"Username must be 3–20 characters using letters and underscores only.", errUserEmpty:"Username is required.", errUserSpace:"Spaces are not allowed in the username.", errUserChars:"Use letters and underscores (_) only.", errUserLength:"Username must be 3–20 characters.", errPw:"Password needs at least 4 characters.",
   errName:"Enter your name.", errTaken:"That username is taken. Try another or log in.",
   errNoAcc:"No account with that username. Create one first.", errWrongPw:"Wrong password. Try again.",
   favTitle:n=>`Hi ${n}, pick your topics`, favLead:"Choose one or two favourite topics. Your quiz will use them.",
@@ -2245,7 +2245,7 @@ const T = {
   login:"లాగిన్", create:"ఖాతా సృష్టించండి", yourName:"మీ పేరు", namePh:"ఉదా: అమ్ము",
   username:"యూజర్ పేరు", unPh:"ఉదా: ammu7", password:"పాస్‌వర్డ్", pwPh:"కనీసం 4 అక్షరాలు",
   loginHint:"ఖాతాలు ఈ యాప్‌లో మాత్రమే సేవ్ అవుతాయి. ప్రతి విద్యార్థి తమ సొంత ఖాతా సృష్టించుకోవచ్చు.",
-  errUser:"యూజర్ పేరులో 3–20 ఇంగ్లీష్ అక్షరాలు లేదా అంకెలు ఉండాలి, ఖాళీలు ఉండకూడదు.", errPw:"పాస్‌వర్డ్‌లో కనీసం 4 అక్షరాలు ఉండాలి.",
+  errUser:"యూజర్ పేరు 3–20 అక్షరాలు మరియు అండర్‌స్కోర్ (_) మాత్రమే ఉపయోగించాలి.", errUserEmpty:"యూజర్ పేరు తప్పనిసరిగా నమోదు చేయాలి.", errUserSpace:"యూజర్ పేరులో ఖాళీలు అనుమతించబడవు.", errUserChars:"అక్షరాలు మరియు అండర్‌స్కోర్ (_) మాత్రమే ఉపయోగించండి.", errUserLength:"యూజర్ పేరు 3–20 అక్షరాల మధ్య ఉండాలి.", errPw:"పాస్‌వర్డ్‌లో కనీసం 4 అక్షరాలు ఉండాలి.",
   errName:"మీ పేరు నమోదు చేయండి.", errTaken:"ఈ యూజర్ పేరు ఇప్పటికే ఉంది. వేరేది ప్రయత్నించండి లేదా లాగిన్ అవ్వండి.",
   errNoAcc:"ఈ యూజర్ పేరుతో ఖాతా లేదు. ముందు ఖాతా సృష్టించండి.", errWrongPw:"పాస్‌వర్డ్ తప్పు. మళ్ళీ ప్రయత్నించండి.",
   favTitle:n=>`హాయ్ ${n}, మీ అంశాలను ఎంచుకోండి`, favLead:"ఒకటి లేదా రెండు ఇష్టమైన అంశాలను ఎంచుకోండి. మీ క్విజ్ వాటి నుండి ఉంటుంది.",
@@ -2985,8 +2985,10 @@ function vLogin(){
       <section class="auth-welcome">
         <img class="landing-square" src="${AMMU_IMG}" alt="Tejaswini Quiz app icon">
         <div class="welcome-entry-card">
-          <p class="tagline-display">${t("loginLead")}</p>
-          <p class="landing-subtitle">Your learning journey starts here</p>
+          <div class="welcome-tagline-box">
+            <p class="tagline-display">${t("loginLead")}</p>
+            <p class="landing-subtitle">Your learning journey starts here</p>
+          </div>
           <div class="auth-actions">
             <button class="btn auth-action primary" type="button" id="chooseLogin"><span class="auth-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7.5" cy="12" r="4.5"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></span><span>${t("login")}</span></button>
             <button class="link center welcome-forgot-link" type="button" id="chooseForgot">${t("forgot")}</button>
@@ -3032,7 +3034,7 @@ function vLogin(){
         <select class="inp" id="plo"><option value="">${t("notSelected")}</option>${[["Hindi","हिन्दी"],["Tamil","தமிழ்"],["Kannada","ಕನ್ನಡ"],["Malayalam","മലയാളം"],["Marathi","मराठी"],["Bengali","বাংলা"],["Gujarati","ગુજરાતી"],["Odia","ଓଡ଼ିଆ"],["Punjabi","ਪੰਜਾਬੀ"],["Urdu","اردو"],["Assamese","অসমীয়া"]].map(([e,n])=>`<option value="${e}" ${route.plangOther===e?"selected":""}>${n} (${e})</option>`).join("")}</select>
         <p class="hint" id="ploNote" style="margin:-6px 0 14px" ${route.plangOther?"":"hidden"}>${t("otherLangNote")}</p>
         ${field("nm",t("yourName"),`autocomplete="name" placeholder="${t("namePh")}"`)}
-        ${field("un",t("username"),`autocomplete="username" autocapitalize="none" placeholder="${t("unPh")}"`)}
+        ${field("un",t("username"),`autocomplete="username" autocapitalize="none" minlength="3" maxlength="20" pattern="[A-Za-z_]{3,20}" title="Use 3–20 letters and underscores (_) only; no spaces." placeholder="${t("unPh")}"`)}
         ${field("em",t("emailLbl"),`type="email" autocomplete="email" autocapitalize="none" placeholder="${t("emailPh")}"`)}
         ${field("ph",t("phoneLbl"),`type="tel" inputmode="tel" autocomplete="tel" placeholder="${t("phonePh")}"`)}
         ${addressFields()}<div id="guardianConsentWrap" class="privacy-panel" hidden><label class="guardian-check"><input type="checkbox" id="guardianConsent"> <span><strong>Parent/guardian permission</strong><br>My parent or guardian agrees to me using this app.</span></label></div>`
@@ -3056,15 +3058,25 @@ function vLogin(){
   $app.querySelectorAll(".role.gen").forEach(b=>b.onclick=()=>{route.gender=b.dataset.g;$app.querySelectorAll(".role.gen").forEach(x=>x.setAttribute("aria-checked",x===b))});
   const fg=document.getElementById("forgot"); if(fg) fg.onclick=()=>go("forgot",{step:1});
   if(mode==="up") wireAddress();
+  const signupUsername=document.getElementById("un");
+  if(mode==="up" && signupUsername){
+    // Keep the user's input visible so the specific validation message can explain the error.
+    signupUsername.addEventListener("input",()=>{
+      if(signupUsername.value.length>20) signupUsername.value=signupUsername.value.slice(0,20);
+    });
+  }
   const err = k=>document.getElementById("err").textContent=t(k);
   const val = id=>document.getElementById(id).value.trim();
   document.getElementById("f").onsubmit = async e=>{
     e.preventDefault();
     const pw=document.getElementById("pw").value;
     if(mode==="up"){
-      const nm=val("nm"), un=val("un").toLowerCase(), em=val("em").toLowerCase(), ph=val("ph");
+      const nm=val("nm"), unRaw=document.getElementById("un").value, un=unRaw.toLowerCase(), em=val("em").toLowerCase(), ph=val("ph");
       if(!nm) return err("errName");
-      if(!/^[a-z0-9_.-]{3,20}$/.test(un)) return err("errUser");
+      if(unRaw.length===0) return err("errUserEmpty");
+      if(/\s/.test(unRaw)) return err("errUserSpace");
+      if(!/^[a-zA-Z_]+$/.test(unRaw)) return err("errUserChars");
+      if(unRaw.length<3 || unRaw.length>20) return err("errUserLength");
       if(!syncDone) await syncReady;
       if(S.accounts[un]) return err("errTaken");
       if(em && !validEmail(em)) return err("errEmail");
@@ -3517,10 +3529,18 @@ header.bar .in{padding-top:8px;padding-bottom:8px}
     const next=document.createElement('button');next.type='button';next.className='btn';next.textContent='Continue';
     actions.append(prev,next);form.insertBefore(actions,err||submit);
     let step=1;
-    function showStep(n){step=Math.max(1,Math.min(3,n));[account,about,contact].forEach((x,i)=>x.hidden=i+1!==step);prev.hidden=step===1;next.hidden=step===3;submit.hidden=step!==3;submit.textContent='Create account';progress.querySelector('.step-caption').textContent='Step '+step+' of 3';progress.querySelectorAll('.step-dot').forEach((d,i)=>d.classList.toggle('active',i<step));if(err)err.textContent='';if(step===3)syncGuardian();}
+    function showStep(n){step=Math.max(1,Math.min(3,n));[account,about,contact].forEach((x,i)=>x.hidden=i+1!==step);if(err){err.textContent='';const activeBlock=[account,about,contact][step-1];activeBlock.appendChild(err);err.classList.add('signup-step-error');}prev.hidden=step===1;next.hidden=step===3;submit.hidden=step!==3;submit.textContent='Create account';progress.querySelector('.step-caption').textContent='Step '+step+' of 3';progress.querySelectorAll('.step-dot').forEach((d,i)=>d.classList.toggle('active',i<step));if(step===3)syncGuardian();}
     function validateStep(){
       const value=id=>find(id)?.value?.trim()||'';
-      if(step===1){if(!value('nm')){if(err)err.textContent='Please enter your name.';return false}if(!/^[a-z0-9_.-]{3,20}$/.test(value('un').toLowerCase())){if(err)err.textContent='Username must be 3–20 characters (letters, numbers, ., _ or -).';return false}if((find('pw')?.value||'').length<4){if(err)err.textContent='Password must contain at least 4 characters.';return false}}
+      if(step===1){
+        if(!value('nm')){if(err)err.textContent='Please enter your name.';return false}
+        const unRaw=find('un')?.value||'';
+        if(unRaw.length===0){if(err)err.textContent=t('errUserEmpty');return false}
+        if(/\s/.test(unRaw)){if(err)err.textContent=t('errUserSpace');return false}
+        if(!/^[a-zA-Z_]+$/.test(unRaw)){if(err)err.textContent=t('errUserChars');return false}
+        if(unRaw.length<3||unRaw.length>20){if(err)err.textContent=t('errUserLength');return false}
+        if((find('pw')?.value||'').length<4){if(err)err.textContent='Password must contain at least 4 characters.';return false}
+      }
       if(step===2){const age=+(value('age'));if(find('catBlock')&&!find('catBlock').hidden&&!(age>=4&&age<=110)){if(err)err.textContent='Please enter a valid age.';return false}if(!form.querySelector('[data-g][aria-checked="true"]')){if(err)err.textContent='Please select your gender.';return false}}
       return true;
     }
@@ -3579,6 +3599,8 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 #f > button[type="submit"] { order: 100; margin-top: 12px; }
 #f { display: flex; flex-direction: column; }
 #f > .signup-step { width: 100%; }
+/* Validation feedback belongs to the active signup column, below its fields and away from Continue. */
+.signup-step .signup-step-error { display:block; width:100%; box-sizing:border-box; margin:8px 0 0; padding:8px 10px; border-radius:8px; line-height:1.4; }
 </style>
 
 <style id="landing-tagline-text-only">
@@ -4157,14 +4179,24 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
   background: var(--paper);
   box-shadow: 0 8px 24px rgba(30, 45, 90, .09);
 }
+.auth-welcome .welcome-tagline-box {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto 16px;
+  padding: 13px 12px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--sheet);
+  text-align: center;
+}
 .auth-welcome .welcome-entry-card .tagline-display {
-  margin: 0 auto 8px;
+  margin: 0 auto 6px;
   padding: 0;
   font-size: clamp(1.3rem, 5vw, 1.8rem);
   line-height: 1.2;
 }
 .auth-welcome .welcome-entry-card .landing-subtitle {
-  margin: 0 auto 18px;
+  margin: 0 auto;
   font-size: .98rem;
   line-height: 1.4;
   font-weight: 600;
@@ -4181,7 +4213,8 @@ input.inp::placeholder, textarea.inp::placeholder { color: var(--muted); opacity
 }
 @media (max-width: 380px) {
   .auth-welcome .welcome-entry-card { padding: 15px 12px 13px; border-radius: 18px; }
-  .auth-welcome .welcome-entry-card .landing-subtitle { margin-bottom: 14px; font-size: .9rem; }
+  .auth-welcome .welcome-tagline-box { padding: 11px 9px; margin-bottom: 13px; }
+  .auth-welcome .welcome-entry-card .landing-subtitle { font-size: .9rem; }
   .auth-welcome .welcome-entry-card .auth-actions { gap: 8px; }
 }
 /* Forgot password appears directly after Login on the welcome page only. */
